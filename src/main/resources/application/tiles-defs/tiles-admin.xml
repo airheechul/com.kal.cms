@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	
+	
+	 <definition name="default_layout" template="/WEB-INF/jsp/tiles-layout/default_layout.jsp">
+		 <put-attribute name="header" value="/WEB-INF/jsp/common/header.jsp" />
+		 <put-attribute name="mainNavi" value="/WEB-INF/jsp/common/mainNavi.jsp" />
+		 <put-attribute name="title" value="/WEB-INF/jsp/common/title.jsp" />
+		 <put-attribute name="body" value="/WEB-INF/jsp/common/blank.jsp" />
+		 <put-attribute name="footer" value="/WEB-INF/jsp/common/footer.jsp" />
+	 </definition> 
+	  
+	<definition name="home_layout" template="/WEB-INF/jsp/tiles-layout/home_layout.jsp">
+		 <put-attribute name="header" value="/WEB-INF/jsp/common/header.jsp" />
+		 <put-attribute name="mainNavi" value="/WEB-INF/jsp/common/mainNavi.jsp" />
+		 <put-attribute name="body" value="/WEB-INF/jsp/common/blank.jsp" />
+		 <put-attribute name="footer" value="/WEB-INF/jsp/common/footer.jsp" />
+	</definition>
+	
+	
+	 <definition name="index_layout" template="/WEB-INF/jsp/tiles-layout/index_layout.jsp">
+		 <put-attribute name="header" value="/WEB-INF/jsp/common/header.jsp" />
+		 <put-attribute name="body"   value="/WEB-INF/jsp/common/blank.jsp"  />
+         <put-attribute name="footer" value="/WEB-INF/jsp/common/footer.jsp" />
+	 </definition>
+	 
+     <definition name="popup_layout" template="/WEB-INF/jsp/tiles-layout/popup_layout.jsp">
+         <put-attribute name="header" value="/WEB-INF/jsp/common/header.jsp" />
+         <put-attribute name="body"   value="/WEB-INF/jsp/common/blank.jsp"  />
+     </definition>
+
+	<definition name="login/*" extends="index_layout">
+		<put-attribute name="body" value="/WEB-INF/jsp/login/{1}.jsp" />
+	</definition>
+
+	<definition name="common/mpframeError" extends="index_layout">
+		<put-attribute name="body" value="/WEB-INF/jsp/common/mpframeError.jsp" />
+	</definition>
+
+	<definition name="*/*Pop" extends="popup_layout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}Pop.jsp" />
+	</definition>	
+	
+	<definition name="*/*" extends="default_layout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+
+ </tiles-definitions>

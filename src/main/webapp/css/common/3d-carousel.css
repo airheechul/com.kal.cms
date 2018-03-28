@@ -1,0 +1,48 @@
+
+
+
+
+.carouselLeft {	
+	display:none;
+	background:url(../../images/common/carousel/rotate-left.png);	
+	width:40px; height:40px;
+	background-position: 0px 0px;
+}
+.carouselLeft:hover {		
+	width:40px; height:40px;
+	background-position: 0px 40px;
+	cursor:auto;
+}
+.carouselRight {
+	display:none;
+	background:url(../../images/common/carousel/rotate-right.png);	
+	width:40px; height:40px;
+	background-position: 0px 0px;
+}
+.carouselRight:hover {	
+	width:40px; height:40px;
+	background-position: 0px 40px;
+}
+/****************************************/
+
+#app-carousel-title, #app-carousel-title1 {
+	display:none;	
+	color:#849C4F;
+	font-family: µ¸¿ò, Arial, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	margin:10px;
+	text-transform:uppercase;
+	letter-spacing:1px;
+	margin-bottom:5px;
+	text-align:center;
+}
+#app-carousel-alt, #app-carousel-alt1{
+	display:none;	
+	color:#ddd;
+	margin:10px;
+	margin-top:0px;
+	font-size:12px;
+	font-weight:bold;
+	
+}

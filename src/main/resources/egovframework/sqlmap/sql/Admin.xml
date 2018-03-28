@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kal.cms.admin.mapper.AdminMapper">
+
+	<resultMap id="adminVO" type="adminInfo">
+		<result property="rowIdx" column="RN" />
+		<result property="userId" column="USER_ID" />
+		<result property="userLocalName" column="USER_LOCAL_NAME" />
+		<result property="roleCode" column="ROLE_CODE" />
+		<result property="createdBy" column="CREATED_BY" />
+		<result property="creationDate" column="CREATION_DATE" />
+		<result property="userName" column="USER_NAME" />
+	</resultMap>
+
+	<resultMap id="adminInfoMap" type="adminInfo">
+		<result property="userId" column="USER_ID" />
+		<result property="userLocalName" column="USER_LOCAL_NAME" />
+		<result property="roleCode" column="ROLE_CODE" />
+		<result property="createdBy" column="CREATED_BY" />
+		<result property="creationDate" column="CREATION_DATE" />
+		<result property="userName" column="USER_NAME" />
+	</resultMap>
+
+	<select id="getAdminLogin" parameterType="pMap" resultMap="adminVO">
+		<![CDATA[        
+		SELECT
+			0 AS RN
+			,USER_ID
+			,USER_LOCAL_LANGUAGE_NAME AS USER_LOCAL_NAME
+			,PAPERLESS_ROLE_CODE AS ROLE_CODE
+			,CREATED_BY
+			,CREATION_DATE
+			,USER_NAME
+		FROM XXPPL_USER
+		WHERE 1 = 1
+		AND ((USER_NAME IS NOT NULL AND USER_NAME = #{userName}) or (USER_NAME IS NULL AND USER_ID = #{loginId}))
+		]]>
+	</select>
+
+	<select id="getAdminInfo" parameterType="pMap" resultMap="adminInfoMap">
+		<![CDATA[
+		SELECT
+			USER_ID
+			,USER_LOCAL_LANGUAGE_NAME AS USER_LOCAL_NAME
+			,PAPERLESS_ROLE_CODE ROLE_CODE
+			,CREATED_BY
+			,CREATION_DATE
+			,USER_NAME
+		FROM XXPPL_USER
+		WHERE USER_ID = #{userId}
+		]]>
+	</select>
+
+	<select id="getAdminTotalCount" parameterType="pMap" resultType="int">
+		<![CDATA[        
+		SELECT COUNT(USER_ID)
+		FROM XXPPL_USER
+		WHERE 1 = 1
+		]]>
+		<if test="searchKeywordType != null and searchKeywordType != ''">
+			<if test="searchKeywordType == 'NM'">
+				AND USER_LOCAL_LANGUAGE_NAME LIKE '%${searchKeyword}%'
+			</if>
+			<if test="searchKeywordType == 'ID'">
+				AND USER_ID LIKE '%${searchKeyword}%'
+			</if>
+		</if>
+	</select>
+
+	<select id="getAdminPageList" parameterType="pMap" resultMap="adminVO">
+        <![CDATA[  
+		SELECT TT.*
+		FROM (
+			SELECT T.*, ROWNUM RN
+			FROM (
+				SELECT
+					USER_ID
+					,USER_LOCAL_LANGUAGE_NAME USER_LOCAL_NAME
+					,PAPERLESS_ROLE_CODE ROLE_CODE
+					,CREATED_BY
+					,CREATION_DATE
+					,USER_NAME
+				FROM XXPPL_USER
+				WHERE 1 = 1
+				AND (#{searchKeywordType} IS NULL OR
+				       (#{searchKeywordType} IS NOT NULL AND
+					    (#{searchKeywordType} = 'NM' AND USER_LOCAL_LANGUAGE_NAME LIKE '%${searchKeyword}%')
+					    OR
+					    (#{searchKeywordType} = 'ID' AND USER_ID LIKE '%${searchKeyword}%')
+					    )
+				    )
+				ORDER BY USER_LOCAL_LANGUAGE_NAME
+			) T
+			WHERE ROWNUM <= #{endRow}
+		) TT
+		WHERE RN >= #{startRow}
+		]]>
+	</select>
+
+
+	<update id="addAdmin" parameterType="pMap">
+		insert into XXPPL_USER
+		(USER_ID, USER_LOCAL_LANGUAGE_NAME, PAPERLESS_ROLE_CODE, CREATED_BY,
+		CREATION_DATE, USER_NAME)
+		values
+		(#{userId}, #{userLocalName}, #{roleCode}, #{loginId}, sysdate, #{userName})
+	</update>
+
+	<update id="updateAdmin" parameterType="pMap">
+		UPDATE XXPPL_USER
+		SET USER_LOCAL_LANGUAGE_NAME = #{userLocalName}
+		,PAPERLESS_ROLE_CODE = #{roleCode}
+		,CREATED_BY = #{loginId}
+		,CREATION_DATE = sysdate
+		,USER_NAME = #{userName}
+		WHERE USER_ID = #{userId}
+	</update>
+
+	<delete id="removeAdmin" parameterType="pMap">
+        DELETE FROM XXPPL_USER 
+        WHERE USER_ID = #{userId}
+	</delete>
+</mapper>

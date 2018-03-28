@@ -1,0 +1,80 @@
+div.fileinputs {
+ position: relative;
+}
+
+div.fakefile {
+ position: absolute;
+ top: 0px;
+ left: 0px;
+ z-index: 1;
+}
+
+input.file {
+ position: relative;
+ text-align: right;
+ -moz-opacity:0 ;
+ filter:alpha(opacity: 0);
+ opacity: 0;
+ z-index: 2;
+}
+
+
+
+
+/************************** etc style ******************************/
+/* AppImage */
+h2.appImage-title {padding:6px 0 0 0; height:23px; font-size:12px; font-weight:bold; color:#606060; text-align:center; background:#f6f6f6; border:1px solid #d6d6d6;}
+h2.appImage-title2 {padding:6px 0 0 0; height:23px; font-size:12px; font-weight:bold; color:#606060; text-align:center; background:#f6f6f6; border:1px solid #d6d6d6; border-top:none;}
+.appImageOld {width:100%; background:#fff; border:1px solid #d6d6d6;}
+.appImageOld th {padding:18px 0 15px 0; font-size:11px; color:#838383; text-align:center; border-right:1px solid #d6d6d6; border-bottom:1px solid #d6d6d6;}
+.appImageOld td {padding:13px 0 10px 0; font-size:11px; color:#838383; text-align:center; border-right:1px solid #d6d6d6; border:1px solid #d6d6d6;}
+.appImageOld td .photo {margin:0 0 5px 0;}
+.appImageOld td .photo img {border:1px solid #eee;}
+
+/* image */
+span.appImg01, span.appImg02, span.appImg03, span.appImg04, span.appImg05 {
+    display:inline-block; 
+    background-position:left top;
+    background-repeat:no-repeat;
+    border:1px solid #c4c4c4;
+    vertical-align:middle;
+}
+span.appImg01 {
+    width:80px; 
+    height:80px;
+    margin-right:8px;
+}
+span.appImg02 {
+    width:74px; 
+    height:74px;
+    margin-right:8px;
+}
+span.appImg03 {
+    width:50px; 
+    height:50px;
+    margin-right:5px;
+}
+span.appImg04 {
+    width:60px; 
+    height:60px;
+    margin-right:8px;
+}
+span.appImg05 {
+    width:57px; 
+    height:57px;
+    margin-right:10px;
+}
+span.appImg06 {
+    display:inline-block;
+    width:168px;
+    height:228px;
+    margin-bottom:5px;
+}
+    span.appImg01 img {width:80px; height:80px;}
+    span.appImg02 img {width:74px; height:74px;}
+    span.appImg03 img {width:50px; height:50px;}
+    span.appImg04 img {width:60px; height:60px;}
+    span.appImg05 img {width:57px; height:57px;}
+    span.appImg06 img {width:168px; height:228px;}
+
+     

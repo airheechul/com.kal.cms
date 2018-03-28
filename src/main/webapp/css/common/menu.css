@@ -1,0 +1,63 @@
+/*
+	 CSS-Tricks Example - MagicLine Demo
+	 by Chris Coyier
+	 http://css-tricks.com
+*/
+.nav-wrap { 
+	margin: 4px auto;
+	height : 54px;
+	font-weight:bold;	
+}
+
+.nav-li-a {
+	width:162px;
+}
+
+/* Example Two */
+#topMenu-two { 
+	margin: 0 auto; 
+	list-style: none; 
+	position: relative; 
+	width: 998px; 
+	color: #000000;
+	font-size:14px;
+	font-family:"나눔고딕", NanumGothic, Arial, Helvetica, sans-serif;
+}
+#topMenu-two li { 
+	display: inline-block;	
+}
+#topMenu-two li a { 
+	position: relative; 
+	color: #000000;
+	z-index: 200; 
+	display: block; 
+	float: left;
+	padding-top: 15px;
+	padding-right: 0;
+	padding-bottom: 10px;
+	padding-left: 0;
+	text-align:center;
+	text-decoration: none;
+	text-transform: uppercase;
+	background:url('../../images/green/bg/bg_topNav_bar.png') no-repeat 162px 2px;
+}
+#topMenu-two li a:hover { 
+	color: white; 
+}
+#topMenu-two #magic-line-two { 
+	position: absolute; 
+	top: 0; 
+	left: 0; 
+	width: 100px; 
+	background: #4C7C0C; 
+	z-index: 100; 
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;	
+}
+.current_page_item_two a { 
+	color: white !important; 
+}
+.ie6 #topMenu-two li, .ie7 #topMenu-two li {
+	display: inline;
+}

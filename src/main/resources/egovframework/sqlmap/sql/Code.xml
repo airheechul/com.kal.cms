@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kal.cms.system.mapper.CodeMapper">
+
+	<resultMap id="codeInfo" type="codeInfo">
+		<result property="codeType"		    column="CODE_TYPE"/>      			
+		<result property="lookupTypeName"	column="LOOKUP_TYPE_NAME"/>
+		<result property="lookupCode"		column="LOOKUP_CODE"/>    
+		<result property="lookupName"		column="LOOKUP_NAME"/>    
+		<result property="sortSequence"		column="SORT_SEQUENCE"/>  
+		<result property="useYn"		    column="USE_YN"/>         
+		<result property="lookupExplain"	column="LOOKUP_EXPLAIN"/> 
+		<result property="commentContents"	column="COMMENT_CONTENTS"/>
+		<result property="lookupClass"	    column="LOOKUP_CLASS"/>
+		<result property="groupCnt"	        column="GROUP_CNT"/>
+	</resultMap>
+
+
+  	<select id="getCodeList"  parameterType="pMap" resultMap="codeInfo">
+	SELECT * 
+	FROM (
+	    SELECT
+	    	TO_NUMBER(LOOKUP_TYPE_NAME+1000000) ord
+	        ,CASE WHEN CD.LOOKUP_CODE = CD.LOOKUP_TYPE_NAME THEN 0 ELSE 1 END CODE_TYPE 
+	        ,CD.LOOKUP_TYPE_NAME
+	        ,CD.LOOKUP_CODE
+	        ,CD.LOOKUP_NAME
+	        ,CD.SORT_SEQUENCE
+	        ,CD.USE_YN
+	        ,CD.LOOKUP_EXPLAIN
+	        ,CD.COMMENT_CONTENTS
+	        ,CD.LOOKUP_CLASS
+	        ,COUNT(LOOKUP_CODE) OVER(PARTITION BY CD.LOOKUP_TYPE_NAME ) GROUP_CNT
+	    FROM XXPPL_CODE CD
+	)  T  
+	ORDER BY ORD ASC, CODE_TYPE, SORT_SEQUENCE    
+	</select>
+	
+  	<select id="getSelectedCodeList"  parameterType="pMap" resultMap="codeInfo">
+	SELECT * 
+	FROM (
+	    SELECT
+	    	TO_NUMBER(LOOKUP_TYPE_NAME+1000000) ord
+	        ,CASE WHEN CD.LOOKUP_CODE = CD.LOOKUP_TYPE_NAME THEN 0 ELSE 1 END CODE_TYPE 
+	        ,CD.LOOKUP_TYPE_NAME
+	        ,CD.LOOKUP_CODE
+	        ,CD.LOOKUP_NAME
+	        ,CD.SORT_SEQUENCE
+	        ,CD.USE_YN
+	        ,CD.LOOKUP_EXPLAIN
+	        ,CD.COMMENT_CONTENTS
+	        ,CD.LOOKUP_CLASS
+	        ,COUNT(LOOKUP_CODE) OVER(PARTITION BY CD.LOOKUP_TYPE_NAME ) GROUP_CNT
+	    FROM XXPPL_CODE CD
+	    WHERE CD.LOOKUP_TYPE_NAME = #{lookupTypeName}
+	    AND CD.USE_YN = 'Y'
+        AND CD.LOOKUP_CODE != CD.LOOKUP_TYPE_NAME
+	    AND CD.LOOKUP_CODE LIKE '%${searchKeyword}%'
+	)  T  
+	ORDER BY ORD ASC, CODE_TYPE, SORT_SEQUENCE    
+	</select>
+
+	<select id="getExistCodeCount" parameterType="pMap" resultType="Integer">
+	   SELECT COUNT(*)
+	     FROM XXPPL_CODE
+	    WHERE LOOKUP_TYPE_NAME = #{lookupTypeName}
+	      AND LOOKUP_CODE = #lookupCode#
+	</select>
+	    	
+	<update id="updateCodeOrder">
+	 <![CDATA[
+	   UPDATE XXPPL_CODE
+	      SET SORT_SEQUENCE = SORT_SEQUENCE + 1
+	    WHERE LOOKUP_TYPE_NAME = #{lookupTypeName}
+          AND SORT_SEQUENCE >= #sortSequence#
+     ]]>   
+	</update>	
+	    	
+	<insert id="addCode" parameterType="pMap">
+		INSERT INTO XXPPL_CODE (
+	        LOOKUP_TYPE_NAME
+	        ,LOOKUP_CODE
+	        ,LOOKUP_NAME
+	        ,SORT_SEQUENCE
+	        ,USE_YN
+	        ,LOOKUP_EXPLAIN
+	        ,COMMENT_CONTENTS
+	        ,LOOKUP_CLASS   
+		) VALUES (
+			#{lookupTypeName}
+			,#lookupCode#
+			,#{lookupName}
+			,(NVL((SELECT MAX(SORT_SEQUENCE) 
+			     FROM XXPPL_CODE
+			    WHERE LOOKUP_TYPE_NAME = #{lookupTypeName}),0) +1)
+			,#{useYn}
+			,#{lookupExplain}
+			,#{commentContents}
+	        ,#lookupClass# 
+       )
+	</insert> 	    	
+	    	
+
+	<update id="updateCode" parameterType="pMap">
+		UPDATE  XXPPL_CODE  
+		   SET  LOOKUP_NAME = #{lookupName},
+		        USE_YN = #{useYn},
+		        LOOKUP_EXPLAIN = #{lookupExplain},
+		        COMMENT_CONTENTS = #{commentContents},
+		        LOOKUP_CLASS = #{lookupClass#} 
+		  WHERE LOOKUP_TYPE_NAME = #{lookupTypeName}
+		    AND LOOKUP_CODE = #{lookupCode}
+	</update>
+		    	
+	<update id="removeCode" parameterType="pMap">
+		DELETE 
+		  FROM XXPPL_CODE
+		 WHERE LOOKUP_TYPE_NAME = #{lookupTypeName}		  
+           AND LOOKUP_CODE = #{lookupCode} 
+	</update>
+
+</mapper>
