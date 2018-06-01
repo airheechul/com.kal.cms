@@ -34,14 +34,14 @@
 	    document.forms[0].submit();
 	}
 
-	// 엔터 키 
-	$('input').live("keypress", function(e) {
+/* 	// 엔터 키 
+	$('input').keypress( function(e) {
         if (e.keyCode == 13) {
         	regularUserLogin2();            
             return false;
         }
     });
-
+ */
 	function doSubmit(){
 		
 		$.ajax({
@@ -54,7 +54,7 @@
 	            var authorized = data.authorized;
 	        	
 	            if (authorized == 'T') {
-	            	location.href = '/admin/adminList.do?topNum=4';
+	            	location.href = '${pageContext.request.contextPath}/content/searchList.do?topNum=1';
 	            }
 	            else {
 	            	alert('접속 권한이 없습니다');

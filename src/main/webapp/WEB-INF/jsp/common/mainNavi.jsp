@@ -17,11 +17,11 @@ function logout(){
 <div id="header">
  
 	<div id="gnb">
-		<h1><img src="/images/blue/bi.png" width="457" height="34" alt="Paperless Content Management System"></h1>
+		<h1><img src="${pageContext.request.contextPath}/images/blue/bi.png" width="457" height="34" alt="Paperless Content Management System"></h1>
 		<div class="logInfo">
 			<span>${sessionScope.UserAccount.userLocalName} 님 안녕하세요</span> ${sessionScope.UserAccount.roleCode}
 			<a title="로그아웃" href="javascript:logout();">
-			<button onclick="logout();"><img src="/images/blue/btn_signout.png" alt="LOGOUT"></button>
+			<button onclick="logout();"><img src="${pageContext.request.contextPath}/images/blue/btn_signout.png" alt="LOGOUT"></button>
 			</a>
 		</div>
 	</div>

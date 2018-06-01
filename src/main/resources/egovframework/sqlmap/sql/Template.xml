@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kal.cms.system.mapper.TemplateMapper">
+
+	<resultMap id="templateInfo" type="templateInfo">
+		<result property="masterWOCntsTmptId" column="MASTER_W_O_CNTS_TMPT_ID" />
+		<result property="masterWOCntsTmptTypCd" column="MASTER_W_O_CNTS_TMPT_TYP_CD" />
+		<result property="templateName" column="TEMPLATE_NAME" />
+		<result property="fileName" column="FILE_NAME" />
+		<result property="urlAddress" column="URL_ADDRESS" />
+		<result property="useYn" column="USE_YN" />
+		<result property="lastUpdatedBy" column="LAST_UPDATED_BY" />
+		<result property="lastUpdateDate" column="LAST_UPDATE_DATE" />
+	</resultMap>
+
+
+	<select id="getTemplateList" parameterType="pMap" resultMap="templateInfo">
+		SELECT
+		MASTER_W_O_CNTS_TMPT_ID
+		,MASTER_W_O_CNTS_TMPT_TYP_CD
+		,TEMPLATE_NAME
+		,FILE_NAME
+		,URL_ADDRESS
+		,USE_YN
+		,LAST_UPDATED_BY
+		,LAST_UPDATE_DATE
+		FROM XXPPL_KOR_TEMPLATE
+		WHERE 1=1
+		AND USE_YN = NVL(#{useYn}, USE_YN)
+		ORDER BY MASTER_W_O_CNTS_TMPT_ID DESC
+	</select>
+
+	<select id="getTemplate" parameterType="pMap" resultMap="templateInfo">
+		SELECT
+		MASTER_W_O_CNTS_TMPT_ID
+		,MASTER_W_O_CNTS_TMPT_TYP_CD
+		,TEMPLATE_NAME
+		,FILE_NAME
+		,URL_ADDRESS
+		,USE_YN
+		,LAST_UPDATED_BY
+		,LAST_UPDATE_DATE
+		FROM XXPPL_KOR_TEMPLATE
+		WHERE MASTER_W_O_CNTS_TMPT_ID = #masterWOCntsTmptId#
+	</select>
+
+	<insert id="addTemplate" parameterType="pMap">
+		<selectKey resultType="int" keyProperty="masterWOCntsTmptId">
+			select XXPPL_KOR_TEMPLATE_ID_SEQ.nextval as masterWOCntsTmptId from dual
+		</selectKey>
+		INSERT INTO XXPPL_KOR_TEMPLATE (
+			MASTER_W_O_CNTS_TMPT_ID
+			,MASTER_W_O_CNTS_TMPT_TYP_CD
+			,TEMPLATE_NAME
+			,FILE_NAME
+			,URL_ADDRESS
+			,USE_YN
+			,CREATED_BY
+			,CREATED_BY_V
+			,CREATION_DATE
+			,LAST_UPDATED_BY
+			,LAST_UPDATED_BY_V
+			,LAST_UPDATE_DATE
+		) VALUES (
+			#{masterWOCntsTmptId}
+			,#{masterWOCntsTmptTypCd}
+			,#{templateName}
+			,#{fileName}
+			,#{urlAddress}
+			,#{useYn}
+			,#{userId}
+			,#{userIdV}
+			,SYSDATE
+			,#{userId}
+			,#{userIdV}
+			,SYSDATE
+       )
+	</insert>
+
+	<update id="updateTemplate" parameterType="pMap">
+		UPDATE XXPPL_KOR_TEMPLATE  
+		   SET  USE_YN = #{useYn} 
+		   		,FILE_NAME = NVL(#{fileName}, FILE_NAME)  
+		   		,URL_ADDRESS = NVL(#{urlAddress}, URL_ADDRESS)
+		   		,LAST_UPDATED_BY = #{userId}  
+		   		,LAST_UPDATED_BY_V = #{userIdV}
+		   		,LAST_UPDATE_DATE = SYSDATE          
+		  WHERE MASTER_W_O_CNTS_TMPT_ID = #{masterWOCntsTmptId}
+	</update>
+  	
+	<update id="removeTemplate" parameterType="pMap">
+		DELETE 
+		  FROM XXPPL_KOR_TEMPLATE
+		 WHERE MASTER_W_O_CNTS_TMPT_ID = #{masterWOCntsTmptId}	  
+	</update>
+	
+</mapper>

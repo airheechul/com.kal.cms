@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kal.cms.task.mapper.TaskMapper">
+
+	<resultMap id="keywordInfo" type="keywordInfo">
+		<result property="keywordId"     column="PAPERLESS_KEYWORD_ID" />
+		<result property="keyword"      column="KEYWORD_NAME" />
+	</resultMap>
+
+	<resultMap id="taskInfo" type="taskInfo">
+		<result property="taskId"     column="MASTER_W_O_CNTS_TSK_ID" />
+		<result property="taskType"      column="MASTER_W_O_CNTS_TSK_TYP_CD" />
+		<result property="model"      column="MAINT_DOC_MODEL_CODE" />
+		<result property="manualType"    column="W_O_CNTS_DOC_SUBTYP_CD" />
+		<result property="contentType"    column="MASTER_W_O_CNTS_TYP_CD" />
+		<result property="description"    column="MASTER_W_O_CNTS_TSK_CTN" />
+		<result property="startDate"    column="WORK_START_DATETIME" />
+		<result property="endDate"    column="WORK_END_DATETIME" />
+		<result property="createdBy"    column="CREATED_BY" />
+		<result property="creationDate"    column="CREATION_DATE" />
+		<result property="status"    column="MASTER_W_O_CNTS_TSK_STTS_CD" />
+		<result property="userId"    column="USER_ID" />
+		<result property="fileName"    column="FILE_NAME" />
+		<result property="urlAddress"    column="URL_ADDRESS" />
+		<result property="userData"    column="SQL_WHERE_CLAUSE_CONTENTS" />
+	</resultMap>
+	
+	<resultMap id="taskDetailInfo" type="taskDetailInfo">
+		<result property="detailId"     column="MASTER_W_O_CNTS_STSK_ID" />
+		<result property="taskId"      column="MASTER_W_O_CNTS_TSK_ID" />
+		<result property="taskDetailName"      column="MASTER_W_O_CNTS_STSK_CTN" />
+		<result property="status"    column="MASTER_W_O_CNTS_STSK_STTS_CD" />
+		<result property="startDate"    column="WORK_START_DATETIME" />
+		<result property="endDate"    column="WORK_END_DATETIME" />
+	</resultMap>
+	
+	<resultMap id="task-monitor-map" type="taskInfo"> 
+		<result property="taskId"     column="MASTER_W_O_CNTS_TSK_ID" />
+		<result property="taskType"      column="MASTER_W_O_CNTS_TSK_TYP_CD" />
+		<result property="model"      column="MAINT_DOC_MODEL_CODE" />
+		<result property="manualType"    column="W_O_CNTS_DOC_SUBTYP_CD" />
+		<result property="contentType"    column="MASTER_W_O_CNTS_TYP_CD" />
+		<result property="description"    column="MASTER_W_O_CNTS_TSK_CTN" />
+		<result property="startDate"    column="WORK_START_DATETIME" />
+		<result property="endDate"    column="WORK_END_DATETIME" />
+		<result property="createdBy"    column="CREATED_BY" />
+		<result property="creationDate"    column="CREATION_DATE" />
+		<result property="status"    column="MASTER_W_O_CNTS_TSK_STTS_CD" />
+		<result property="userId"    column="USER_ID" />
+		<result property="fileName"    column="FILE_NAME" />
+		<result property="urlAddress"    column="URL_ADDRESS" />
+		
+		<result property="subTaskId"    column="MASTER_W_O_CNTS_STSK_ID" />
+	    <result property="subTaskStartDate"    column="TD_WORK_START_DATETIME" />
+	    <result property="subTaskEndDate"    column="TD_WORK_END_DATETIME" />
+	    <result property="subTaskStatus"    column="MASTER_W_O_CNTS_STSK_STTS_CD" />
+	    <result property="subTaskDesc"    column="MASTER_W_O_CNTS_STSK_CTN" />
+	    <result property="subTaskRank"    column="RNK" />
+    </resultMap>
+    
+    <resultMap id="taskDetailLogInfo" type="taskDetailInfo"> 
+		<result property="detailId"     column="MASTER_W_O_CNTS_STSK_ID" />
+		<result property="detailLogId"     column="MASTER_W_O_CNTS_STSK_LOG_ID" />
+		<result property="detailLog"     column="ERROR_MESSAGE_CONTENTS" />
+		<result property="logDate"    column="LOG_RECORD_DATETIME" />
+    </resultMap>
+
+<select id="getTaskDetailLog" parameterType="Map" resultMap="taskDetailLogInfo">
+        SELECT
+			LO.MASTER_W_O_CNTS_STSK_ID
+			,LO.MASTER_W_O_CNTS_STSK_LOG_ID
+			,LO.ERROR_MESSAGE_CONTENTS
+			,LO.LOG_RECORD_DATETIME
+		FROM XXPPL_SUBTASK_LOG LO
+		WHERE MASTER_W_O_CNTS_STSK_ID = #{detailId}
+			<if test="prevDetailLogId != ''">
+			AND LO.MASTER_W_O_CNTS_STSK_LOG_ID <![CDATA[ > ]]> #{prevDetailLogId}
+			</if>
+		ORDER BY LO.MASTER_W_O_CNTS_STSK_LOG_ID
+    </select>
+    
+    <select id="getLastRevSeq" parameterType="Map" resultType="Integer">
+    <![CDATA[
+    	SELECT NVL(MAX(TO_NUMBER(MASTER_W_O_CNTS_DOC_REVZ_NO)),0) 
+    	FROM XXPPL_MASTER_CONTENTS
+    	WHERE MAINT_DOC_MODEL_CODE=#{model} AND W_O_CNTS_DOC_SUBTYP_CD=#{manualType} AND MASTER_W_O_CNTS_TYP_CD=#{contentType}
+    ]]>
+    </select>
+    
+    <select id="getTaskStatus" parameterType="Map" resultType="String">
+    SELECT T0.MASTER_W_O_CNTS_TSK_STTS_CD
+	FROM XXPPL_TASK T0
+	WHERE T0.MASTER_W_O_CNTS_TSK_ID = #{taskId}
+	</select>
+	    
+    <select id="getKeywordList" parameterType="Map" resultMap="keywordInfo">
+    <![CDATA[
+    	SELECT PAPERLESS_KEYWORD_ID, KEYWORD_NAME 
+    	FROM XXPPL_KEYWORD
+    ]]>
+    	<if test="keywordId != ''">
+    	WHERE PAPERLESS_KEYWORD_ID=#{keywordId}
+    	</if>
+    </select>
+    
+    <select id="getTaskList" parameterType="Map" resultMap="taskInfo">
+    <![CDATA[
+    	SELECT MASTER_W_O_CNTS_TSK_ID, MASTER_W_O_CNTS_TSK_TYP_CD, MAINT_DOC_MODEL_CODE, W_O_CNTS_DOC_SUBTYP_CD, MASTER_W_O_CNTS_TYP_CD, MASTER_W_O_CNTS_TSK_CTN, 
+    		WORK_START_DATETIME, WORK_END_DATETIME, CREATED_BY, CREATION_DATE, MASTER_W_O_CNTS_TSK_STTS_CD, USER_ID, FILE_NAME, URL_ADDRESS, SQL_WHERE_CLAUSE_CONTENTS
+    	FROM XXPPL_TASK 
+    	WHERE 1=1
+    ]]>
+    	<if test="taskId!=null and !taskId.equals('')">
+    		AND MASTER_W_O_CNTS_TSK_ID=#{taskId}
+    	</if>
+    	<if test="taskType!=null and !taskType.equals('')">
+    		AND MASTER_W_O_CNTS_TSK_TYP_CD=#{taskType}
+    	</if>
+    	<if test="model!=null and !model.equals('')">
+    		AND MAINT_DOC_MODEL_CODE=#{model}
+    	</if>
+    	<if test="manualType!=null and !manualType.equals('')">
+    		AND W_O_CNTS_DOC_SUBTYP_CD=#{manualType}
+    	</if>
+    	<if test="contentType!=null and !contentType.equals('')">
+    		AND MASTER_W_O_CNTS_TYP_CD=#{contentType}
+    	</if>
+    	<if test="status!=null and !status.equals('')">
+    		AND MASTER_W_O_CNTS_TSK_STTS_CD=#{status}
+    	</if>
+    </select>
+    
+    <select id="getSelectedTaskList" parameterType="Map" resultMap="taskInfo">
+    	SELECT MASTER_W_O_CNTS_TSK_ID, MASTER_W_O_CNTS_TSK_TYP_CD, MAINT_DOC_MODEL_CODE, W_O_CNTS_DOC_SUBTYP_CD, MASTER_W_O_CNTS_TYP_CD, MASTER_W_O_CNTS_TSK_CTN, 
+    		WORK_START_DATETIME, WORK_END_DATETIME, CREATED_BY, CREATION_DATE, MASTER_W_O_CNTS_TSK_STTS_CD, USER_ID, FILE_NAME, URL_ADDRESS, SQL_WHERE_CLAUSE_CONTENTS
+    	FROM XXPPL_TASK 
+    	WHERE MASTER_W_O_CNTS_TSK_ID IN
+    		<foreach collection="taskIds" item="item" index="index"  open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+    </select>    
+    
+    <select id="getTaskDetailList" parameterType="Map" resultMap="taskDetailInfo">
+    <![CDATA[
+    	SELECT MASTER_W_O_CNTS_STSK_ID, MASTER_W_O_CNTS_TSK_ID, MASTER_W_O_CNTS_STSK_CTN, MASTER_W_O_CNTS_STSK_STTS_CD, WORK_START_DATETIME, WORK_END_DATETIME 
+    	FROM XXPPL_TASK_DETAIL
+    ]]>
+    	<if test="taskId!=''">
+    	WHERE MASTER_W_O_CNTS_STSK_ID=#{taskId}
+    	</if>
+    </select>
+
+	<insert id="addContent" parameterType="Map">
+		<selectKey keyProperty="contentId" resultType="long">
+			SELECT XXPPL_MASTER_CONTENTS_ID_SEQ.nextval FROM DUAL
+		</selectKey>
+		insert into XXPPL_MASTER_CONTENTS
+		(
+			MASTER_WORKORDER_CONTENTS_ID,
+			MAINT_DOC_MODEL_CODE,
+			W_O_CNTS_DOC_SUBTYP_CD,
+			MASTER_W_O_CNTS_TYP_CD,
+			FILE_NAME,
+			URL_ADDRESS,
+			MASTER_W_O_CNTS_DOC_REVZ_NO,
+			MASTER_W_O_CNTS_DOC_REVZ_DT,
+			MASTER_W_O_CNTS_STTS_CD,			
+			RELEASE_YN,
+			RELEASE_DATE,
+			TITLE_NAME,
+			CREATED_BY,
+			CREATION_DATE,
+			LAST_UPDATED_BY,
+			LAST_UPDATE_LOGIN,
+			LAST_UPDATE_DATE,
+			CREATED_BY_V,
+			LAST_UPDATED_BY_V
+		) values (
+			#{contentId},
+			#{model},
+			#{manualType},
+			#{contentType},
+			#{fileName},
+			#{fileUrl},
+			#{revSeq},
+			#{revDate},
+			#{revType},
+			<if test="releaseType!=''">
+				<if test="releaseType=='Y'">
+				#{releaseType},
+				sysdate,
+				</if>
+			</if>
+			<if test="releaseType==''">
+			'N',
+			null,
+			</if>
+			#{title},
+			#{userId},
+			sysdate,
+			#{userId},
+			#{userId},
+			sysdate,
+			#{userIdV},
+			#{userIdV}
+		)
+	</insert>
+	
+	<insert id="addKeyword" parameterType="Map">
+		<selectKey keyProperty="keywordId" resultType="long">
+			SELECT XXPPL_KEYWORD_ID_SEQ.nextval FROM DUAL
+		</selectKey>
+		<![CDATA[
+		INSERT INTO XXPPL_KEYWORD
+		(
+			PAPERLESS_KEYWORD_ID,
+			KEYWORD_NAME
+		) values (
+			#{keywordId},
+			#{keyword}
+		)
+		]]>
+	</insert>
+	
+	<insert id="addContentMap" parameterType="Map">
+	<![CDATA[
+		INSERT INTO XXPPL_CONTENT_MAP
+		(
+			MASTER_WORKORDER_CONTENTS_ID,
+			PAPERLESS_KEYWORD_ID
+		) values (
+			#{contentId},
+			#{keywordId}
+		)
+	]]>
+	</insert>
+	
+	<insert id="addImage" parameterType="Map">
+		<selectKey keyProperty="imageId" resultType="long">
+			SELECT XXPPL_IMAGE_ID_SEQ.nextval FROM DUAL
+		</selectKey>
+	<![CDATA[
+		INSERT INTO XXPPL_IMAGE
+		(
+			MASTER_W_O_CNTS_IMG_ID,
+			FILE_NAME,
+			URL_ADDRESS,
+			MAINT_DOC_MODEL_CODE,
+			W_O_CNTS_DOC_SUBTYP_CD
+		) values (
+			#{imageId},
+			#{fileName},
+			#{fileUrl},
+			#{model},
+			#{manualType}
+		)
+	]]>
+	</insert>
+	
+	<insert id="addImageMap" parameterType="Map">
+	<![CDATA[
+		INSERT INTO XXPPL_IMAGE_CONTENTS
+		(
+			MASTER_WORKORDER_CONTENTS_ID,
+			MASTER_W_O_CNTS_IMG_ID
+		) values (
+			#{contentId},
+			#{imageId}
+		)
+	]]>
+	</insert>
+	
+	<insert id="addTaskMap" parameterType="Map">
+	<![CDATA[
+		INSERT INTO XXPPL_TASK_CONTENTS
+		(
+			MASTER_WORKORDER_CONTENTS_ID,
+			MASTER_W_O_CNTS_TSK_ID
+		) values (
+			#{contentId},
+			#{taskId}
+		)
+	]]>
+	</insert>
+	
+	<insert id="addTask" parameterType="Map">
+		<selectKey keyProperty="taskId" resultType="long">
+			SELECT XXPPL_TASK_ID_SEQ.nextval FROM DUAL
+		</selectKey>
+	<![CDATA[
+		INSERT INTO XXPPL_TASK
+		(
+			MASTER_W_O_CNTS_TSK_ID,
+			MASTER_W_O_CNTS_TSK_TYP_CD,
+			MAINT_DOC_MODEL_CODE,
+			W_O_CNTS_DOC_SUBTYP_CD,
+			MASTER_W_O_CNTS_TYP_CD,
+			MASTER_W_O_CNTS_TSK_CTN,
+			WORK_START_DATETIME,
+			WORK_END_DATETIME,
+			MASTER_W_O_CNTS_TSK_STTS_CD,
+			CREATED_BY,
+			CREATED_BY_V,
+			CREATION_DATE,
+			USER_ID,
+			FILE_NAME,
+			URL_ADDRESS,
+			RELEASE_YN,
+			RELEASE_DATE,
+			SQL_WHERE_CLAUSE_CONTENTS
+		) values (
+			#{taskId},
+			#{taskType},
+			#{model},
+			#{manualType},
+			#{contentType},
+			#{description},
+			sysdate,
+			#{endDate},
+			#{status},
+			#{userId},
+			#{userId},
+			sysdate,
+			#{userId},
+			null,
+			null,
+			#{releaseYn},
+			null,
+			#{userData}
+		)
+	]]>
+	</insert>
+	
+	<insert id="addTaskDetail" parameterType="Map">
+		<selectKey keyProperty="detailId" resultType="long">
+			SELECT XXPPL_TASK_DETAIL_ID_SEQ.nextval FROM DUAL
+		</selectKey>
+	<![CDATA[
+		INSERT INTO XXPPL_TASK_DETAIL
+		(
+			MASTER_W_O_CNTS_STSK_ID,
+			MASTER_W_O_CNTS_TSK_ID,
+			MASTER_W_O_CNTS_STSK_CTN,
+			MASTER_W_O_CNTS_STSK_STTS_CD,
+			WORK_START_DATETIME,
+			WORK_END_DATETIME
+		) values (
+			#{detailId},
+			#{taskId},
+			#{taskDetailName},
+			#{status},
+			sysdate,
+			#{endDate}
+		)
+	]]>
+	</insert>
+	
+	<insert id="addTaskDetailLog" parameterType="map">
+		<selectKey resultType="int" keyProperty="detailLogId">
+			select XXPPL_SUBTASK_LOG_ID_SEQ.nextval as detailLogId from dual
+		</selectKey>
+		INSERT INTO XXPPL_SUBTASK_LOG
+			(MASTER_W_O_CNTS_STSK_LOG_ID
+			,ERROR_MESSAGE_CONTENTS     
+			,LOG_RECORD_DATETIME        
+			,MASTER_W_O_CNTS_STSK_ID)
+		VALUES (
+			#{detailLogId}        
+			,#{errorMessageContents}
+			,sysdate
+			,#{detailId}
+		)
+	</insert>
+	
+	<update id="updateTaskStatus" parameterType="pMap">
+		UPDATE XXPPL_TASK 
+		SET MASTER_W_O_CNTS_TSK_STTS_CD=#{status}
+			<if test="endDate!=''">
+			, WORK_END_DATETIME=#{endDate}
+			</if>
+		WHERE
+			MASTER_W_O_CNTS_TSK_ID=#{taskId}
+	</update>
+	
+	<update id="updateMultiTaskStatus" parameterType="pMap">
+		UPDATE XXPPL_TASK 
+		SET MASTER_W_O_CNTS_TSK_STTS_CD=#{status}
+		WHERE
+			MASTER_W_O_CNTS_TSK_ID IN
+			<foreach collection="taskIds" item="item" index="index"  open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+	</update>
+	
+	<update id="updateTaskDetailStatus" parameterType="pMap">
+		UPDATE XXPPL_TASK_DETAIL 
+		SET MASTER_W_O_CNTS_STSK_STTS_CD=#{status}
+			<if test="endDate!=''">
+			, WORK_END_DATETIME=#{endDate}
+			</if>
+		WHERE
+			MASTER_W_O_CNTS_STSK_ID=#{detailId}
+	</update>
+	
+	
+	
+	<select id="getTaskTotalCount" parameterType="pMap" resultType="Integer">
+ 	SELECT COUNT(T0.MASTER_W_O_CNTS_TSK_ID) CNT FROM (
+		SELECT T.MASTER_W_O_CNTS_TSK_ID
+		FROM XXPPL_TASK T
+		WHERE MASTER_W_O_CNTS_TSK_STTS_CD != '7006'
+			<if test="taskId!=null and !taskId.equals('')">
+			AND T.MASTER_W_O_CNTS_TSK_ID = #{taskId}
+			</if>
+			<if test="searchMaintDocModelCode!=null and !searchMaintDocModelCode.equals('')">
+			AND T.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+			</if>
+			<if test="searchWOCntsDocSubtypCd!=null and !searchWOCntsDocSubtypCd.equals('')">
+			AND T.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #searchWOCntsDocSubtypCd} || '%'
+			</if>
+			<if test="searchMasterWOCntsTypCd!=null and !searchMasterWOCntsTypCd.equals('')">
+			AND T.MASTER_W_O_CNTS_TYP_CD LIKE '%' || #searchMasterWOCntsTypCd} || '%'
+			</if>
+			
+			<if test="searchMasterWOCntsTskSttsCd!=null and !searchMasterWOCntsTskSttsCd.equals('')">
+			AND T.MASTER_W_O_CNTS_TSK_STTS_CD = #{searchMasterWOCntsTskSttsCd} 
+			</if>
+
+			<if test="searchReviseType!=null and !searchReviseType.equals('')">
+			AND T.MASTER_W_O_CNTS_STTS_CD = #{searchReviseType} 
+			</if>
+
+			<if test="searchStartDt!=null and !searchStartDt.equals('')">        
+			  AND T.WORK_START_DATETIME >= TO_DATE(#searchStartDt},'YYYY-MM-DD')
+			</if> 
+			<if test="searchEndDt!=null and !searchEndDt.equals('')">        
+			  AND T.WORK_START_DATETIME &lt; TO_DATE(#searchEndDt},'YYYY-MM-DD')+1
+			</if>  
+			<if test="searchTaskType!=null and !searchTaskType.equals('')">
+			AND T.MASTER_W_O_CNTS_TSK_TYP_CD = #{searchTaskType}
+			</if>
+			<if test="description!=null and !description.equals('')">
+			AND T.MASTER_W_O_CNTS_TSK_CTN LIKE '%'||#description}||'%'
+			</if>
+			<if test="createdBy!=null and !createdBy.equals('')">
+			AND T.CREATED_BY = #{createdBy}
+			</if>
+	) T0
+	</select>
+
+	<select id="getTaskPageList" parameterType="pMap" resultMap="task-monitor-map">
+	SELECT MT.*
+	    ,TD.MASTER_W_O_CNTS_STSK_ID
+	    ,TD.WORK_START_DATETIME AS TD_WORK_START_DATETIME
+	    ,TD.WORK_END_DATETIME AS TD_WORK_END_DATETIME
+	    ,TD.MASTER_W_O_CNTS_STSK_STTS_CD
+	    ,TD.MASTER_W_O_CNTS_STSK_CTN
+	    ,RANK() OVER(PARTITION BY  MT.MASTER_W_O_CNTS_TSK_ID ORDER BY MASTER_W_O_CNTS_STSK_ID) RNK
+	FROM (
+		SELECT TTT.*, DUMM.TASK_GB 
+		FROM (
+			SELECT TT.*
+				 FROM (
+					SELECT T.*, ROWNUM RNUM FROM(
+						SELECT
+							T.MASTER_W_O_CNTS_TSK_ID,
+							T.MAINT_DOC_MODEL_CODE,
+							T.W_O_CNTS_DOC_SUBTYP_CD,
+							T.MASTER_W_O_CNTS_TYP_CD,
+							T.MASTER_W_O_CNTS_TSK_CTN,
+							T.RELEASE_YN,
+							T.RELEASE_DATE,
+							T.CREATED_BY,
+							T.CREATION_DATE,
+							T.MASTER_W_O_CNTS_TSK_TYP_CD,
+							T.WORK_START_DATETIME,
+							T.WORK_END_DATETIME,
+							T.MASTER_W_O_CNTS_TSK_STTS_CD,
+							T.USER_ID,
+							T.FILE_NAME,
+							T.URL_ADDRESS
+						FROM XXPPL_TASK T
+						WHERE MASTER_W_O_CNTS_TSK_STTS_CD != '7006'
+
+						<if test="searchMaintDocModelCode!=null and !searchMaintDocModelCode.equals('')">
+							AND T.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+						</if>
+		
+						<if test="searchWOCntsDocSubtypCd!=null and !searchWOCntsDocSubtypCd.equals('')">
+							AND T.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #searchWOCntsDocSubtypCd} || '%'
+						</if>
+						<if test="searchMasterWOCntsTskTypCd!=null and !searchMasterWOCntsTskTypCd.equals('')">
+							AND T.MASTER_W_O_CNTS_TSK_TYP_CD LIKE '%' || #searchMasterWOCntsTskTypCd} || '%'
+						</if>
+		
+						<if test="searchMasterWOCntsTskSttsCd!=null and !searchMasterWOCntsTskSttsCd.equals('')">
+						AND T.MASTER_W_O_CNTS_TSK_STTS_CD = #{searchMasterWOCntsTskSttsCd} 
+						</if>
+
+						<if test="searchStartDt!=null and !searchStartDt.equals('')">        
+						  AND T.WORK_START_DATETIME >= TO_DATE(#searchStartDt},'YYYY-MM-DD')
+						</if> 
+						<if test="searchEndDt!=null and !searchEndDt.equals('')">        
+						  AND T.WORK_START_DATETIME &lt; TO_DATE(#searchEndDt},'YYYY-MM-DD')+1
+						</if>   
+						<if test="searchTaskType!=null and !searchTaskType.equals('')">
+						AND T.MASTER_W_O_CNTS_TSK_TYP_CD = #{searchTaskType}
+						</if>
+						<if test="description!=null and !description.equals('')">
+						AND T.MASTER_W_O_CNTS_TSK_CTN LIKE '%'||#description}||'%'
+						</if>
+						<if test="createdBy!=null and !createdBy.equals('')">
+						AND T.CREATED_BY = #{createdBy}
+						</if>
+						ORDER BY T.MASTER_W_O_CNTS_TSK_ID DESC
+					) T WHERE ROWNUM &lt;= #{endRow}
+				) TT
+				WHERE TT.RNUM > #{startRow}
+			) TTT
+			,(SELECT 0 TASK_GB FROM DUAL UNION ALL SELECT 1 FROM DUAL) DUMM
+		) MT
+		,(SELECT 1 TASK_GB,TD0.* FROM XXPPL_TASK_DETAIL TD0) TD
+	WHERE MT.MASTER_W_O_CNTS_TSK_ID = TD.MASTER_W_O_CNTS_TSK_ID(+)
+		AND MT.TASK_GB = TD.TASK_GB(+)
+	ORDER BY MT.MASTER_W_O_CNTS_TSK_ID DESC, MT.TASK_GB, TD.MASTER_W_O_CNTS_STSK_ID
+	</select>
+</mapper>

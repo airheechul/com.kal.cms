@@ -27,7 +27,7 @@ public class AdminMapper extends EgovAbstractMapper {
 	public List<AdminInfo> getAdminList(HashMap<String, Object> pMap) throws DataAccessException, Exception {
 		LOGGER.debug("Running Method Name : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		
-    	Iterator iter = pMap.entrySet().iterator();
+/*    	Iterator iter = pMap.entrySet().iterator();
     	while(iter.hasNext()) {
     	    Entry<String, Object> entry =  (Entry<String, Object>) iter.next();
     	    String key = entry.getKey();
@@ -35,7 +35,7 @@ public class AdminMapper extends EgovAbstractMapper {
     	    
     	    LOGGER.debug("key / value => " + key + "/" + value);
     	}
-    	
+*/    	
 	
 		return selectList("com.kal.cms.admin.mapper.AdminMapper.getAdminPageList", pMap);
 	}

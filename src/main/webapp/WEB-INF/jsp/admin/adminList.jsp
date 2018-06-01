@@ -119,7 +119,7 @@
 	</div>
 	<div id="contentBody">
 	
-	<h3><img src="/images/blue/tit_manageAdmin.png" alt="관리자 계정 관리"></h3>
+	<h3><img src="${pageContext.request.contextPath}/images/blue/tit_manageAdmin.png" alt="관리자 계정 관리"></h3>
 
 	<form:form id="adminForm" name="adminForm" action="" method="post">
 		<input type="hidden" name="act" value="search"/>

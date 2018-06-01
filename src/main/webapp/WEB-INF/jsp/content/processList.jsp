@@ -1,0 +1,505 @@
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ page import="org.apache.commons.logging.Log" %>
+<%@ page import="org.apache.commons.logging.LogFactory" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		init();
+		
+		var model_type = $("#searchMaintDocModelCode option:selected").attr("class");
+		if("13001" == model_type){
+			$('#searchMasterWOCntsTypCd').children("[value='OP']").remove();
+		}
+		
+		$("button[name='btnTr']").click(function(idx){
+			var paTr = $(this).parent().parent();
+			var rIdx = $("#mainList tbody tr").index(paTr);
+			
+			moveList("TR", rIdx);
+			return false;
+		});
+		
+		$("#searchTermsBox").keyup(function(e){
+			if(e.keyCode == 13){
+				searchList('1');
+				return false;
+			}
+		});		
+		
+		$('#btnSearch').click(function(){
+			searchList('1');
+			return false;
+		});
+		
+		$('#btnOptionClear').click(function(){
+			searchOptionClear();
+			return false;
+		});	
+		
+		$('#btnSGML').click(function(){
+			SGMLRegistPop();
+			return false;
+		});
+		
+		$('#btnUpload').click(function(){
+			uploadPop();
+			return false;
+		});
+		
+		$('#btnDownloadView').click(function(){
+			goDownloadView();
+			return false;
+		});
+		  
+		$("button[name='btnTm']").click(function(idx){
+			var paTr = $(this).parent().parent();
+			var rIdx = $("#mainList tbody tr").index(paTr);
+			document.moveListForm.taskId.value = $(this).attr("data1");
+			
+			moveList("TM", rIdx);
+			return false;
+		});
+		
+		
+		$(".btnCheckIn").click(function(){
+			var taskId = $(this).attr("id");
+			checkInConfirm(taskId);
+			
+			return false;
+		});
+		
+		$(".btnDownload").click(function(){
+			var data1 = $(this).attr("data1");
+			var data2 = $(this).attr("data2");
+			
+			downloadFile(data1, data2);
+			
+			return false;
+		});
+		
+		$(".btnReport").click(function(){
+			var data1 = $(this).attr("data1");
+			
+			reportPop(data1);
+			
+			return false;
+		});
+	    
+	    $('#searchMaintDocModelCode').change(function(){
+	    	toggleContenTypeOptionOP();
+	    	toggleManualTypeOption();
+	    	
+	    	return false;
+	    });
+	    
+	    $('.pageNavi').change(function(){
+	    	searchList($("option:selected", this).val());
+	    	return false;
+	    });
+	    
+	    $('.btnPagePrev, .btnPageNext').click(function(){
+	    	searchList($(this).val());
+	    	return false;
+	    });
+ 	});
+	
+	function init(){
+		Common.importJS("datepicker.js");
+		toggleManualTypeOption();
+		setOpener();
+	}
+	
+	function toggleContenTypeOptionOP(){
+    	var value = $("#searchMaintDocModelCode option:selected").attr("class");
+
+    	$('#searchMasterWOCntsTypCd').children("[value='OP']").remove();
+    	if("13001" != value){
+    		$("select[name=searchMasterWOCntsTypCd] option[value=RT]").before('<option value="OP">OP</option>');
+    	}
+	}
+	
+	function toggleManualTypeOption(){
+    	var sgb = $("#searchMaintDocModelCode option:selected").val();
+    	var mgb = $("#searchWOCntsDocSubtypCd option:selected").val();
+    	
+    	$('#searchWOCntsDocSubtypCd').children().each(function(){
+    		if($(this).val() != "KOR" && $(this).val() != "") {
+    			$(this).remove();
+    		}
+    	});
+    	
+    	if("" != sgb){
+    		if(sgb.indexOf("A3") == 0){
+    			$("select[name=searchWOCntsDocSubtypCd] option[value=KOR]").before('<option value="AMM">AMM</option>');
+    			$("select[name=searchWOCntsDocSubtypCd] option[value=KOR]").before('<option value="TSM">TSM</option>');
+    			
+    		} else if (sgb.indexOf("B7") == 0){
+    			$("select[name=searchWOCntsDocSubtypCd] option[value=KOR]").before('<option value="AMM">AMM</option>');
+    			$("select[name=searchWOCntsDocSubtypCd] option[value=KOR]").before('<option value="FRMFIM">FRMFIM</option>');
+    		}
+    		
+    	} else {
+    		$("select[name=searchWOCntsDocSubtypCd] option[value=KOR]").before('<option value="AMM">AMM</option>');
+    		$("select[name=searchWOCntsDocSubtypCd] option[value=KOR]").before('<option value="TSM">TSM</option>');
+    		$("select[name=searchWOCntsDocSubtypCd] option[value=KOR]").before('<option value="FRMFIM">FRMFIM</option>');
+    	}
+    	
+    	$('#searchWOCntsDocSubtypCd').val(mgb);
+	}
+	
+	/*
+	* 타 메뉴 페이지로 이동
+	*/
+	function moveList(gb, rowIdx){
+		var trValuesArr = $("input[name='trValues']").eq(rowIdx).val().split(",");
+		var fo = document.moveListForm;
+		
+		fo.searchMaintDocModelCode.value=trValuesArr[0];
+		fo.searchWOCntsDocSubtypCd.value=trValuesArr[1];
+		fo.searchMasterWOCntsTypCd.value=trValuesArr[2];
+		
+		if(gb == "TR"){
+			fo.topNum.value="1";
+			fo.action = "${pageContext.request.contextPath}/content/searchList.do?topNum=1";
+		} else {
+			fo.topNum.value="3";
+			fo.action = "${pageContext.request.contextPath}/task/taskList.do";
+		}
+		fo.submit();
+	}
+	
+	function onClickChkAll(obj) {
+		if(obj.checked) {
+			$('input:checkbox').attr('checked',true);
+		} else {
+			$('input:checkbox').attr('checked',false);
+		}
+	}	
+	
+	/**
+	 *  리스트 조회
+	 */	
+	function searchList(currentPage) {
+   	    document.contentForm.currentPage.value = currentPage;    	
+		document.contentForm.action = "${pageContext.request.contextPath}/content/processList.do";
+		document.contentForm.submit();
+	}
+	/**
+	 *  페이지 이동
+	 */	
+	function naviProcessList() {
+		document.contentForm.action = "${pageContext.request.contextPath}/content/processList.do";
+		document.contentForm.submit();
+	}
+		
+	/* clear search pannel */
+	function searchOptionClear(){
+		/* clear selectBox */
+		$("#searchTermsBox select").each(function(idx){
+			$(this).children().selected = false;
+			$(this).children().eq(0).attr("selected", "selected");
+		});
+		
+		/* clear textBox */
+		$("#searchTermsBox input").each(function(idx){
+			$(this).val("");
+		});
+	}
+	
+	function SGMLRegistPop(){
+		var url = "${pageContext.request.contextPath}/task/sgmlFlowPop.do";
+		var popupProps = "dialogWidth:" + 700 + "px;,dialogHeight:" + 800 + "px;resizable=no;scroll=no;location=no;";
+		window.name = "popup";
+		var popupWin = window.showModalDialog(url, this, popupProps);
+		if (popupWin=="ok")searchList('1');
+	}
+	
+	function uploadPop(){
+		var url = "${pageContext.request.contextPath}/content/processUploadPop.do";
+		var popupProps = "dialogWidth:" + 700 + "px;,dialogHeight:" + 550 + "px;resizable=no;scroll=no;location=no;";
+		window.name = "popup";
+		var popupWin = window.showModalDialog(url, this, popupProps);
+		if(popupWin){
+			document.contentForm.action = "${pageContext.request.contextPath}/content/processList.do";
+			document.contentForm.submit();
+		}
+	}
+	
+	function goDownloadView(){
+		location.href = "${pageContext.request.contextPath}/content/downloadList.do?topNum=2";
+	}
+	
+	function reportPop(id){
+		//alert("서비스 준비중입니다."); return false;
+		
+		var url = "${pageContext.request.contextPath}/content/processReportPop.do?masterWOCntsTskId="+id;
+		var popupProps = "dialogWidth:" + 750 + "px;,dialogHeight:" + 350 + "px;resizable=no;scroll=no;location=no;";
+		window.name = "popup";
+		var popupWin = window.showModalDialog(url, this, popupProps);
+	}
+	
+	function checkIn(taskId, immediateYn){
+
+		$.ajax({
+			type: "POST",
+			url: "${pageContext.request.contextPath}/content/processCheckIn.do",
+			cache : false, 
+			data : "masterWOCntsTskId=" + taskId+"&immediateYn="+immediateYn,
+			dataType: "json",
+			success : function(data){
+				if(data.result == "OK") {
+					alert("체크인 처리 되었습니다.");
+					naviProcessList();
+				} else {
+					alert(data.result);
+				}
+			},
+			error: function(data){
+				alert("에러가 발생하였습니다.");
+			}
+		});
+		
+		return false;
+	}
+	
+	function checkInConfirm(taskId){
+		var winConfirm = null;
+		try{
+			if(winConfirm == null){
+				var cw=500;
+				var ch=350;
+				var sw=screen.availWidth;
+				var sh=screen.availHeight;
+				var px=(sw-cw)/2;
+				var py=(sh-ch)/2;				
+
+				winConfirm = window.open("" ,"imagePop","toolbar=no,scrollbars=no,resizable=no,location=no,width="+cw+"px,height="+ch+"px,top="+py+"px,left="+px+"px");
+								
+				var htmlString = "<!DOCTYPE HTML><html><head>";
+				htmlString += "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>";
+				htmlString += "<title>KOREAN AIR - Paperless Content Management System</title>";
+				htmlString += "<link href='${pageContext.request.contextPath}/html/css/${skin}/style.css' rel='stylesheet' type='text/css'>";
+				htmlString += "</head>";
+				htmlString += "<body class='alertbody'>";
+				htmlString += "	<div id='alertwrap'>";
+				htmlString += "		<h1>체크인</h1>";
+				htmlString += "		<p class='comment'>체크인 하시겠습니까?</p>";	
+				htmlString += "		<p class='btns'><button class='btn_type_d btnYes' onclick='opener.checkIn(\""+taskId+"\", \"Y\");self.close();'>예<span></span></button>&nbsp;";
+				htmlString += "		<button class='btn_type_d btnCancle' onclick='self.close();'>취소<span></span></button></p>";
+				htmlString += "	</div>";
+				htmlString += "</body></html>";
+				winConfirm.document.open();
+				winConfirm.document.write(htmlString);
+				winConfirm.document.close();
+			}
+			if(winConfirm != null)
+				winConfirm.focus();
+		}catch(e){
+			alert(e);
+		}
+		
+
+		return winConfirm;
+	}
+	
+	function downloadFile(data1, data2){
+		if(confirm("이 파일을 열거나 저장하시겠습니까?\n이름: "+data1+"\n유형: zip ")) {
+			document.download.action = "${pageContext.request.contextPath}/content/downloadFile.do";
+			document.download.fileOrgName.value = data1;
+			document.download.fileFullPath.value = data2;
+			document.download.submit();
+		}
+	}
+	
+	var opener = null;
+    function setOpener() {
+        if (window.dialogArguments) { // Internet Explorer supports window.dialogArguments{ 
+            opener = window.dialogArguments;
+        }else {// Firefox, Safari, Google Chrome and Opera supports window.opener 
+            if (window.opener) {
+                opener = window.opener;
+            }
+        }       
+    }
+</script>
+	<form id="contentForm" name="contentForm"  method="get"> 
+	<input type="hidden" id="currentPage" name="currentPage" value="${param.currentPage}" />
+	 
+	<input type="hidden" name="topNum" value="${param.topNum}"/>
+	<input type="hidden" name="act" value="search"/>
+	<table class="tbl_type_b" id="searchTermsBox" >
+		<colgroup>
+			<col width="17%">
+			<col width="33%">
+			<col width="17%">
+			<col width="">
+		</colgroup>
+			<tr>
+				<th>Model</th>
+				<td>
+					<emp:list mainCode="1000" name="searchMaintDocModelCode" optionTitle="- 선택 -"  subCode="${param.searchMaintDocModelCode}"  />
+				</td>
+				<th>Manual Type</th>
+				<td>
+					<emp:list mainCode="2000" name="searchWOCntsDocSubtypCd" optionTitle="- 선택 -"  subCode="${param.searchWOCntsDocSubtypCd}"  /> 
+				</td>
+			</tr>
+			<tr>
+				<th>Content Type</th>
+				<td>
+					<emp:list mainCode="3000" name="searchMasterWOCntsTypCd" optionTitle="- 선택 -"  subCode="${param.searchMasterWOCntsTypCd}"  />
+				</td>
+				<th>Revision No.</th>
+				<td>
+					<input type="text" name="searchRevSeq" id="searchRevSeq" size=30 class="inputText" value="${param.searchRevSeq}" />
+				</td>
+			</tr>
+			<tr>
+				<th>Content Status</th>
+				<td>
+					<select name="searchTaskType">
+                    	<option value="">- 선택 -</option>
+                    	<option value="IM" <c:if test="${param.searchTaskType == 'IM'}">selected='selected'</c:if>>Import</option>
+                    	<option value="EX" <c:if test="${param.searchTaskType == 'EX'}">selected='selected'</c:if>>Export</option>
+                    </select>
+				</td>
+				<th>Author</th>
+				<td>
+					<input type="text" name="searchAuthor" id="searchAuthor" class="w40p" value="${param.searchAuthor}" />
+				</td>
+			</tr>
+			<tr>
+				<th>Date</th>
+				<td colspan="3">
+					<label for="searchStartDt">From</label>
+					<input type="text" name="searchStartDt" id="searchStartDt" value="${param.searchStartDt}" class="date" style="width:100px;" readonly/>
+					&nbsp;&nbsp;~&nbsp;&nbsp;
+					<label for="searchEndDt">To</label>
+					<input type="text" name="searchEndDt" id="searchEndDt"  value="${param.searchEndDt}" class="date" style="width:100px;" readonly/>
+				</td>
+			</tr>
+	</table>	
+
+	<div class="under_tbl_area">
+		<button class="btn_type_a" id="btnSearch">Search<span></span></button>
+		<button class="btn_type_a" id="btnOptionClear">Clear<span></span></button>
+	</div>
+
+	<div class="space"></div>
+
+	<div class="top_tbl_area">
+		<button class="btn_type_a btnBig" id="btnSGML">SGML<span></span></button>
+		<button class="btn_type_a" id="btnUpload">Upload<span></span></button>	
+		<button class="btn_type_a" id="btnDownloadView">Download<span></span></button>	
+		<input type="hidden" id="pageSize" name="pageSize" value="${pMap.pageSize}"/>
+		<emp:pageNavi pageList="${contentProcessList}" doSubmit="naviSearchList();" styleClass="pageNum" pageNaviSize="${pMap.pageSize}"/>
+
+	</div>
+	<table id="mainList" class="tbl_type_a">
+		<colgroup>
+			<col width="*%">
+			<col width="7.5%">
+			<col width="7.5%">
+			<col width="5%">
+			<col width="9%">
+			<col width="9%">
+			<col width="6%">
+			<col width="7%">
+			<col width="7%">
+			<col width="5%">
+			<col width="5%">
+			<col width="13%">
+			<col width="7.3%">
+		</colgroup>
+		<thead>
+			<tr>
+				<th>Model</th>
+				<th>Manual<br>
+					Type</th>
+				<th>Content <br>
+					Type</th>
+				<th>REV<br>
+					No.</th>
+				<th>Start Time</th>
+				<th>End Time</th>
+				<th>Release</th>
+				<th>Author</th>
+				<th>Status</th>
+				<th colspan="4">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:if test="${contentProcessList != null && fn:length(contentProcessList) > 0}">  
+			<c:forEach var="contentProcessInfo" items="${contentProcessList}" varStatus="idx">
+			<tr style="cursor:pointer"> 
+				<td>${contentProcessInfo.maintDocModelCode}<input type="hidden" name="trValues" value="${contentProcessInfo.maintDocModelCode},${contentProcessInfo.WOCntsDocSubtypCd},${contentProcessInfo.masterWOCntsTypCd},${contentProcessInfo.masterWOCntsRevzNo}"></td>
+				<td><emp:value mainCode="2000" subCode="${contentProcessInfo.WOCntsDocSubtypCd}" /></td>
+				<td>${contentProcessInfo.masterWOCntsTypCd}</td>
+				<td>${contentProcessInfo.masterWOCntsRevzNo}</td>	
+				<td><div class="dv_date"><span><emp:date value="${contentProcessInfo.workStartDatetime}" format="yyyy-MM-dd HH:mm:ss" /></span></div></td>
+				<td><div class="dv_date"><span><emp:date value="${contentProcessInfo.workEndDatetime}" format="yyyy-MM-dd HH:mm:ss" /></span></div></td>
+				<td>${contentProcessInfo.releaseYn}</td>	
+				<td>${contentProcessInfo.createdByV}</td>
+				<td><emp:value mainCode="7000" subCode="${contentProcessInfo.masterWOCntsTskSttsCd}" /></td>					
+				<td class="border_none">
+				<c:if test="${contentProcessInfo.masterWOCntsTskSttsCd == '7001' || contentProcessInfo.masterWOCntsTskSttsCd == '7007'}">
+					<c:if test="${contentProcessInfo.WOCntsDocSubtypCd != 'TSM' && contentProcessInfo.WOCntsDocSubtypCd != 'FRMFIM'}">  
+						<button class="btn_type_b" name="btnTr">TR<span></span></button>
+					</c:if>
+				</c:if>					
+				</td>
+				
+				<td class="border_none">
+				<c:if test="${contentProcessInfo.masterWOCntsTskSttsCd != null}">
+					<button class="btn_type_c" name="btnTm" data1="${contentProcessInfo.masterWOCntsTskId}">TM<span></span></button>
+				</c:if>
+				</td>
+				<td class="border_none">
+				<c:if test="${(contentProcessInfo.releaseYn == 'N' || contentProcessInfo.releaseYn == null) && (contentProcessInfo.masterWOCntsTskSttsCd == '7001' || contentProcessInfo.masterWOCntsTskSttsCd == '7007') && (contentProcessInfo.masterWOCntsTskTypCd == '5003' || contentProcessInfo.masterWOCntsTskTypCd == '5001') && contentProcessInfo.masterWOCntsTypCd != 'IMAGE'}">
+					<button class="btn_type_b btnCheckIn" id="${contentProcessInfo.masterWOCntsTskId}">Check In<span></span></button>
+				</c:if>
+				<c:if test="${contentProcessInfo.masterWOCntsTskSttsCd == '7001' && contentProcessInfo.masterWOCntsTskTypCd == '5002'}">
+					<button class="btn_type_b btnDownload" data1="${contentProcessInfo.fileName}" data2="${contentProcessInfo.urlAddress}">Download<span></span></button>
+				</c:if>	
+				</td>
+				<td class="border_none_last">	
+				<c:if test="${contentProcessInfo.WOCntsDocSubtypCd != null && contentProcessInfo.WOCntsDocSubtypCd != 'KOR' && contentProcessInfo.masterWOCntsTskTypCd == '5001' && contentProcessInfo.masterWOCntsTskSttsCd == '7001'}">
+					<button class="btn_type_c btnReport" data1="${contentProcessInfo.masterWOCntsTskId}">Report<span></span></button>
+				</c:if>
+				</td>
+			</tr>
+			</c:forEach>
+			</c:if>
+			<c:if test="${contentProcessList == null || fn:length(contentProcessList) == 0}">  
+			<tr > 
+				<td colspan="13"> 해당 내역이 없습니다.&nbsp;	</td>
+			</tr>
+			</c:if>
+		</tbody>
+	</table>
+	
+	<div class="under_tbl_area_b">
+		<emp:pageNavi pageList="${contentProcessList}" doSubmit="naviSearchList();" styleClass="pageNum" pageNaviSize="${pMap.pageSize}"/>
+	</div>	
+	</form>
+	
+	<form name="moveListForm" method="get">
+		<input type="hidden" name="searchMaintDocModelCode" value="">
+		<input type="hidden" name="searchWOCntsDocSubtypCd" value="">
+		<input type="hidden" name="searchMasterWOCntsTypCd" value="">
+		<input type="hidden" name="taskId" value="">
+		<input type="hidden" name="act" value="search"/>
+		<input type="hidden" name="topNum" value="${param.topNum}"/>
+	</form>
+	
+	<form id="download" name="download"  method="post" target="downloadFrame">
+		<input type="hidden" name="fileFullPath" value=""/>
+		<input type="hidden" name="fileName" value=""/>
+		<input type="hidden" name="fileOrgName" value=""/>
+	</form>
+	<iframe width="0" height="0" frameborder="0" marginwidth="0" marginheight="0" name="downloadFrame"></iframe>

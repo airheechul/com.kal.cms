@@ -16,6 +16,11 @@
 		<result property="groupCnt"	        column="GROUP_CNT"/>
 	</resultMap>
 
+	<resultMap id="lookupVO" type="lookupVO">
+		<result property="lookupTypeName"	column="LOOKUP_TYPE_NAME"/>
+		<result property="lookupCode"		column="LOOKUP_CODE"/>    
+		<result property="lookupName"		column="LOOKUP_NAME"/>    
+	</resultMap>
 
   	<select id="getCodeList"  parameterType="pMap" resultMap="codeInfo">
 	SELECT * 
@@ -34,7 +39,7 @@
 	        ,COUNT(LOOKUP_CODE) OVER(PARTITION BY CD.LOOKUP_TYPE_NAME ) GROUP_CNT
 	    FROM XXPPL_CODE CD
 	)  T  
-	ORDER BY ORD ASC, CODE_TYPE, SORT_SEQUENCE    
+	ORDER BY ORD ASC, CODE_TYPE, SORT_SEQUENCE
 	</select>
 	
   	<select id="getSelectedCodeList"  parameterType="pMap" resultMap="codeInfo">
@@ -60,6 +65,60 @@
 	)  T  
 	ORDER BY ORD ASC, CODE_TYPE, SORT_SEQUENCE    
 	</select>
+	
+	
+  	<select id="getComboList"  parameterType="pMap" resultMap="lookupVO">
+	SELECT T.LOOKUP_TYPE_NAME, T.LOOKUP_CODE, T.LOOKUP_NAME
+	FROM (
+	    SELECT
+	    	TO_NUMBER(LOOKUP_TYPE_NAME+1000000) ord
+	        ,CASE WHEN CD.LOOKUP_CODE = CD.LOOKUP_TYPE_NAME THEN 0 ELSE 1 END CODE_TYPE 
+	        ,CD.LOOKUP_TYPE_NAME
+	        ,CD.LOOKUP_CODE
+	        ,CD.LOOKUP_NAME
+	        ,CD.SORT_SEQUENCE
+	        ,CD.USE_YN
+	        ,CD.LOOKUP_EXPLAIN
+	        ,CD.COMMENT_CONTENTS
+	        ,CD.LOOKUP_CLASS
+	        ,COUNT(LOOKUP_CODE) OVER(PARTITION BY CD.LOOKUP_TYPE_NAME ) GROUP_CNT
+	    FROM XXPPL_CODE CD
+	    WHERE CD.LOOKUP_TYPE_NAME = #{lookupTypeName}
+	    AND CD.USE_YN = 'Y'
+        AND CD.LOOKUP_CODE != CD.LOOKUP_TYPE_NAME
+	    AND CD.LOOKUP_CODE LIKE '%${searchKeyword}%'
+	)  T  
+	ORDER BY ORD ASC, CODE_TYPE, SORT_SEQUENCE    
+	</select>
+	
+	
+  	<select id="getLOVs"  parameterType="pMap" resultMap="lookupVO">
+	SELECT T.LOOKUP_TYPE_NAME, T.LOOKUP_CODE, T.LOOKUP_NAME
+	FROM (
+	    SELECT
+	    	TO_NUMBER(LOOKUP_TYPE_NAME+1000000) ord
+	        ,CASE WHEN CD.LOOKUP_CODE = CD.LOOKUP_TYPE_NAME THEN 0 ELSE 1 END CODE_TYPE 
+	        ,CD.LOOKUP_TYPE_NAME
+	        ,CD.LOOKUP_CODE
+	        ,CD.LOOKUP_NAME
+	        ,CD.SORT_SEQUENCE
+	        ,CD.USE_YN
+	        ,CD.LOOKUP_EXPLAIN
+	        ,CD.COMMENT_CONTENTS
+	        ,CD.LOOKUP_CLASS
+	        ,COUNT(LOOKUP_CODE) OVER(PARTITION BY CD.LOOKUP_TYPE_NAME ) GROUP_CNT
+	    FROM XXPPL_CODE CD
+	    WHERE CD.LOOKUP_TYPE_NAME IN
+        <foreach collection="sLookupType" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+
+	    AND CD.USE_YN = 'Y'
+        AND CD.LOOKUP_CODE != CD.LOOKUP_TYPE_NAME
+	)  T  
+	ORDER BY ORD ASC, CODE_TYPE, SORT_SEQUENCE    
+	</select>
+	
 
 	<select id="getExistCodeCount" parameterType="pMap" resultType="Integer">
 	   SELECT COUNT(*)

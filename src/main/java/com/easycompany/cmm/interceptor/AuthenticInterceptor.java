@@ -39,15 +39,15 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
 		AdminInfo adminInfo = (AdminInfo)WebUtils.getSessionAttribute(request, "UserAccount");
 
 		if(adminInfo != null){
-System.out.println("AuthenticInterceptor authorized");  			
+//System.out.println("AuthenticInterceptor authorized");  			
 			return true;
 		} else if(!isPermittedURL){
-System.out.println("AuthenticInterceptor not authorized --> isPermittedURL");
+//System.out.println("AuthenticInterceptor not authorized --> isPermittedURL");
 			
 			ModelAndView modelAndView = new ModelAndView("redirect:/login/login.do");
 			throw new ModelAndViewDefiningException(modelAndView);
 		} else {
-System.out.println("AuthenticInterceptor not authorized --> isPermittedURL");
+//System.out.println("AuthenticInterceptor not authorized --> isPermittedURL");
 			return true;
 		}
 

@@ -5,12 +5,17 @@
     <typeAliases>
 		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 		<typeAlias alias="pMap" type="java.util.HashMap" />
+		<typeAlias alias="contentInfo" type="com.kal.cms.content.vo.ContentInfo" />
 		<typeAlias alias="adminInfo" type="com.kal.cms.admin.vo.AdminInfo" />
 		<typeAlias alias="codeInfo" type="com.kal.cms.system.vo.CodeInfo" />
-		<!-- <typeAlias alias="regularAdminInfo" type="com.kal.cms.admin.info.RegularAdminInfo" />
-		<typeAlias alias="contentInfo" type="com.kal.cms.content.info.ContentInfo" />
-		<typeAlias alias="taskInfo" type="com.kal.cms.content.info.TaskInfo" />	
-		<typeAlias alias="contentFileInfo" type="com.kal.cms.content.info.ContentFileInfo" />
-		<typeAlias alias="templateInfo" type="com.kal.cms.system.info.TemplateInfo" /> -->		
+		<typeAlias alias="lookupVO" type="com.kal.cms.system.vo.LookupVO" />
+		<!-- <typeAlias alias="regularAdminInfo" type="com.kal.cms.admin.info.RegularAdminInfo" /> -->
+		<typeAlias alias="contentInfo" type="com.kal.cms.content.vo.ContentInfo" />
+		<typeAlias alias="contentTaskInfo" type="com.kal.cms.content.vo.ContentTaskInfo" />
+		<typeAlias alias="taskInfo" type="com.kal.cms.task.vo.TaskInfo" />
+		<typeAlias alias="taskDetailInfo" type="com.kal.cms.task.vo.TaskDetailInfo" />
+		<typeAlias alias="keywordInfo" type="com.kal.cms.task.vo.KeywordInfo" />
+		<!-- <typeAlias alias="contentFileInfo" type="com.kal.cms.content.info.ContentFileInfo" /> -->
+		<typeAlias alias="templateInfo" type="com.kal.cms.system.vo.TemplateInfo" />		
     </typeAliases>
 </configuration>

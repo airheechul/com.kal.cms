@@ -1,0 +1,58 @@
+package com.kal.cms.system.mapper;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
+
+import com.kal.cms.system.vo.TemplateInfo;
+
+import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
+
+
+@Repository("templateMapper")
+public class TemplateMapper extends EgovAbstractMapper {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(TemplateMapper.class);
+
+	
+	public List<TemplateInfo> getTemplateList(HashMap<String, Object> pMap) throws DataAccessException, Exception {
+		LOGGER.debug("Running Method Name : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+	
+		return selectList("com.kal.cms.system.mapper.TemplateMapper.getTemplateList", pMap);
+	}
+	
+	public TemplateInfo getTemplate(HashMap<String, Object> pMap) throws DataAccessException, Exception {
+		LOGGER.debug("Running Method Name : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+	
+		return selectOne("com.kal.cms.system.mapper.TemplateMapper.getTemplate", pMap);
+	}
+	
+	public int addTemplate(HashMap<String, Object> pMap) {
+
+	    int result = -1;
+	    
+        try {
+        	insert("com.kal.cms.system.mapper.TemplateMapper.addTemplate", pMap);
+        	result = 1;
+
+        } catch (Exception e) {
+        	LOGGER.debug("TemplateMapper.addTemplate Exception: {}", e);
+            e.printStackTrace();
+        }
+
+		return result;
+	}
+
+	public int updateTemplate(HashMap<String, Object> pMap) {
+		return update("com.kal.cms.system.mapper.TemplateMapper.updateTemplate", pMap);
+	}
+	
+	public int removeTemplate(HashMap<String, Object> pMap) {
+		return delete("com.kal.cms.system.mapper.TemplateMapper.removeTemplate", pMap);
+	}
+	
+}

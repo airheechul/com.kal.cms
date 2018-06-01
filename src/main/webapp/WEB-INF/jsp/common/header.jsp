@@ -10,15 +10,15 @@
 	<meta name="author" content="" />
 	<meta name="generator" content="cms" />
 	    
-    <link rel="stylesheet" type="text/css" href="/css/blue/style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/blue/style.css" type="text/css" media="screen" />
     
-    <link rel="stylesheet" type="text/css" href="/css/common/jquery-ui-1.7.2.custom.css"  />
-    <link rel="stylesheet" type="text/css" href="/css/common/dtree.css"  />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common/jquery-ui.min.css"  />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common/dtree.css"  />
 
 	
-    <script type="text/javascript" src="/js/jquery-1.4.2.js"></script>
-    <script type="text/javascript" src="/js/jquery-ui-1.7.2.custom.min.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/util.js"></script> 
-    <script type="text/javascript" src="/js/jquery.form.js"></script>   
-    <script type="text/javascript" src="/js/dtree.js"></script>   
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.2.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/common.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/util.js"></script> 
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.form.js"></script>   
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/dtree.js"></script>   

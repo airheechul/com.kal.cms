@@ -1,0 +1,1321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kal.cms.content.mapper.ContentMapper">
+
+	<resultMap id="content-default-map" type="contentInfo">
+		<result property="masterWorkorderContentsId"     column="MASTER_WORKORDER_CONTENTS_ID" />
+		<result property="maintDocModelCode"      column="MAINT_DOC_MODEL_CODE" />
+		<result property="WOCntsDocSubtypCd"      column="W_O_CNTS_DOC_SUBTYP_CD" />
+		<result property="masterWOCntsTypCd"    column="MASTER_W_O_CNTS_TYP_CD" />
+		<result property="fileName"   column="FILE_NAME" />
+		<result property="urlAddress"   column="URL_ADDRESS" />
+		<result property="masterWOCntsRevzNo"        column="MASTER_W_O_CNTS_REVZ_NO" />
+		<result property="masterWOCntsDocRevzNo"        column="MASTER_W_O_CNTS_DOC_REVZ_NO" />
+		<result property="masterWOCntsSttsCd"     column="MASTER_W_O_CNTS_STTS_CD" />
+		<result property="masterWOCntsSttsNm"     column="MASTER_W_O_CNTS_STTS_NM" />
+		<result property="releaseYn"   column="RELEASE_YN" />
+		<result property="releaseDate" column="RELEASE_DATE" />
+		<result property="titleName"     column="TITLE_NAME" />
+		<result property="lastUpdatedBy" 		column="LAST_UPDATED_BY" />
+		<result property="lastUpdatedByV" 		column="LAST_UPDATED_BY_V" />
+		<result property="lastUpdateDate" 		column="LAST_UPDATE_DATE" />
+	</resultMap>
+
+	<resultMap id="content-revision-map" type="contentInfo">
+		<result property="masterWorkorderContentsId"     column="MASTER_WORKORDER_CONTENTS_ID" />
+		<result property="masterWOCntsRevzNo"        column="MASTER_W_O_CNTS_REVZ_NO" />
+		<result property="masterWOCntsDocRevzNo"        column="MASTER_W_O_CNTS_DOC_REVZ_NO" />
+		<result property="releaseYn"        column="RELEASE_YN" />
+	</resultMap>
+	
+	<resultMap id="content-process-map" type="contentInfo">
+		<result property="masterWorkorderContentsId"     column="MASTER_WORKORDER_CONTENTS_ID" />
+		<result property="maintDocModelCode"      column="MAINT_DOC_MODEL_CODE" />
+		<result property="WOCntsDocSubtypCd"      column="W_O_CNTS_DOC_SUBTYP_CD" />
+		<result property="masterWOCntsTypCd"    column="MASTER_W_O_CNTS_TYP_CD" />
+		<result property="fileName"   column="FILE_NAME" />
+		<result property="urlAddress"   column="URL_ADDRESS" />
+		<result property="masterWOCntsRevzNo"        column="MASTER_W_O_CNTS_REVZ_NO" />
+		<result property="masterWOCntsSttsCd"     column="MASTER_W_O_CNTS_STTS_CD" />
+		<result property="releaseYn"   column="RELEASE_YN" />
+		<result property="releaseDate" column="RELEASE_DATE" />
+		<result property="titleName"     column="TITLE_NAME" />
+		<result property="lastUpdatedBy" 		column="LAST_UPDATED_BY" />
+		<result property="lastUpdatedByV" 		column="LAST_UPDATED_BY_V" />
+		<result property="lastUpdateDate" 		column="LAST_UPDATE_DATE" />
+		
+		<result property="masterWOCntsTskTypCd" 		column="MASTER_W_O_CNTS_TSK_TYP_CD" />
+		<result property="workStartDatetime" 		column="WORK_START_DATETIME" />
+		<result property="workEndDatetime" 		column="WORK_END_DATETIME" />
+		<result property="masterWOCntsTskSttsCd" 		column="MASTER_W_O_CNTS_TSK_STTS_CD" />
+		<result property="latestRevYn" 		column="LATEST_REV_YN" />
+	</resultMap>
+	
+	<resultMap id="content-task-map" type="contentTaskInfo">
+		<result property="masterWOCntsTskId" column="MASTER_W_O_CNTS_TSK_ID" />
+		<result property="masterWOCntsTskTypCd" column="MASTER_W_O_CNTS_TSK_TYP_CD" />
+		<result property="maintDocModelCode" column="MAINT_DOC_MODEL_CODE" />
+		<result property="WOCntsDocSubtypCd" column="W_O_CNTS_DOC_SUBTYP_CD" />
+		<result property="masterWOCntsTypCd" column="MASTER_W_O_CNTS_TYP_CD" />
+		<result property="masterWOCntsTskCtn" column="MASTER_W_O_CNTS_TSK_CTN" />
+		<result property="releaseYn" column="RELEASE_YN" /> 
+		<result property="releaseDate" column="RELEASE_DATE" />
+		<result property="workStartDatetime" column="WORK_START_DATETIME" />
+		<result property="workEndDatetime" column="WORK_END_DATETIME" />
+		<result property="createdBy" column="CREATED_BY" />
+		<result property="createdByV" column="CREATED_BY_V" />
+		<result property="creationDate" column="CREATION_DATE" />
+		<result property="masterWOCntsTskSttsCd" column="MASTER_W_O_CNTS_TSK_STTS_CD" />
+		<result property="userId" column="USER_ID" />
+		<result property="fileName" column="FILE_NAME" />
+		<result property="urlAddress" column="URL_ADDRESS" />
+		
+		<result property="masterWOCntsRevzNo" column="MASTER_W_O_CNTS_REVZ_NO" />
+		<result property="latestRevYn" column="LATEST_REV_YN" />
+	</resultMap>
+	
+	
+	<resultMap id="image-process-map" type="contentInfo">
+		<result property="masterWOCntsImgId" column="MASTER_W_O_CNTS_IMG_ID" />
+		<result property="maintDocModelCode"      column="MAINT_DOC_MODEL_CODE" />
+		<result property="WOCntsDocSubtypCd"      column="W_O_CNTS_DOC_SUBTYP_CD" />
+		<result property="masterWOCntsTypCd"    column="MASTER_W_O_CNTS_TYP_CD" />
+		<result property="fileName"   column="FILE_NAME" />
+		<result property="urlAddress"   column="URL_ADDRESS" />
+	</resultMap>	
+	
+	
+	<resultMap id="process-report-map" type="contentTaskInfo">
+		<result property="masterWOCntsTskId" column="MASTER_W_O_CNTS_TSK_ID" />
+		<result property="masterWOCntsTskTypCd" column="MASTER_W_O_CNTS_TSK_TYP_CD" />
+		<result property="maintDocModelCode" column="MAINT_DOC_MODEL_CODE" />
+		<result property="WOCntsDocSubtypCd" column="W_O_CNTS_DOC_SUBTYP_CD" />
+		<result property="masterWOCntsTypCd" column="MASTER_W_O_CNTS_TYP_CD" />
+		<result property="masterWOCntsTskCtn" column="MASTER_W_O_CNTS_TSK_CTN" />
+		<result property="releaseYn" column="RELEASE_YN" /> 
+		<result property="releaseDate" column="RELEASE_DATE" />
+		<result property="workStartDatetime" column="WORK_START_DATETIME" />
+		<result property="workEndDatetime" column="WORK_END_DATETIME" />
+		<result property="createdBy" column="CREATED_BY" />
+		<result property="createdByV" column="CREATED_BY_V" />
+		<result property="creationDate" column="CREATION_DATE" />
+		<result property="masterWOCntsTskSttsCd" column="MASTER_W_O_CNTS_TSK_STTS_CD" />
+		<result property="userId" column="USER_ID" />
+		<result property="fileName" column="FILE_NAME" />
+		<result property="urlAddress" column="URL_ADDRESS" />
+		
+		<result property="reportType" column="REPORT_TYPE" />
+		<result property="masterWOCntsRevzNo"        column="MASTER_W_O_CNTS_REVZ_NO" />
+		<result property="masterWOCntsDocRevzNo"        column="MASTER_W_O_CNTS_DOC_REVZ_NO" />		
+	</resultMap>
+
+	<select id="getContentTotalCount" parameterType="pMap" resultType="Integer">
+ 	SELECT COUNT(MASTER_WORKORDER_CONTENTS_ID) CNT
+ 	FROM (
+		SELECT C.MASTER_WORKORDER_CONTENTS_ID
+			,RANK() OVER (PARTITION BY C.FILE_NAME ORDER BY TO_NUMBER(C.MASTER_W_O_CNTS_REVZ_NO) DESC) RNK
+		FROM XXPPL_MASTER_CONTENTS C 
+			<if test="searchValue!=''">
+			, XXPPL_CONTENT_MAP CM, XXPPL_KEYWORD K
+              </if>
+		WHERE 1=1
+			<if test="searchValue != ''">
+			AND C.MASTER_WORKORDER_CONTENTS_ID = CM.MASTER_WORKORDER_CONTENTS_ID(+)
+			AND CM.PAPERLESS_KEYWORD_ID = K.PAPERLESS_KEYWORD_ID(+)
+			AND K.KEYWORD_NAME LIKE '%' || #{searchValue} || '%'
+	        </if>
+	
+			<if test="searchMaintDocModelCode != ''">
+			AND C.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+			</if>
+	
+			<if test="searchWOCntsDocSubtypCd != ''">
+			AND C.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #{searchWOCntsDocSubtypCd} || '%'
+			</if>
+			<if test="searchMasterWOCntsTypCd != ''">
+			AND C.MASTER_W_O_CNTS_TYP_CD LIKE '%' || #{searchMasterWOCntsTypCd} || '%'
+			</if>
+	
+			<if test="searchReleaseYn!=''">
+				<if test="searchReleaseYn=='Y'">
+				AND C.RELEASE_YN = 'Y'
+				</if>
+				<if test="searchReleaseYn!='Y'">
+				<![CDATA[
+					AND C.RELEASE_YN <> 'Y'
+				]]>
+				</if>
+			</if>
+
+			<if test="searchMasterWOCntsSttsCd != ''">
+			AND C.MASTER_W_O_CNTS_STTS_CD = #{searchMasterWOCntsSttsCd}
+			</if>			
+			<if test="searchMasterWOCntsSttsCd ==''">
+			AND C.MASTER_W_O_CNTS_STTS_CD != 'D' 
+			</if>
+	
+			<if test="searchFileName != ''">
+			AND C.FILE_NAME LIKE '%' || #{searchFileName} || '%'
+			</if>
+
+			<if test="searchAuthor != ''">
+			AND (C.LAST_UPDATED_BY LIKE '%' || #{searchAuthor} || '%' OR C.LAST_UPDATED_BY_V LIKE '%' || #{searchAuthor} || '%')
+			</if>
+
+			<if test="searchStartDt !=">        
+			  AND C.LAST_UPDATE_DATE >= TO_DATE(#{searchStartDt},'YYYY-MM-DD')
+			</if> 
+			<if test="searchEndDt != ''">        
+			  AND C.LAST_UPDATE_DATE &lt; TO_DATE(#{searchEndDt},'YYYY-MM-DD')+1
+			</if>  
+			)
+	WHERE RNK = 1
+	</select>
+	
+
+	<select id="getContentPageList" parameterType="pMap" resultMap="content-default-map">
+		SELECT TT.* FROM (
+			SELECT T.*, ROWNUM RNUM FROM(
+				SELECT T0.* FROM (
+				SELECT
+					C.MASTER_WORKORDER_CONTENTS_ID,
+					C.MAINT_DOC_MODEL_CODE,
+					C.W_O_CNTS_DOC_SUBTYP_CD,
+					C.MASTER_W_O_CNTS_TYP_CD,
+					C.FILE_NAME,
+					C.URL_ADDRESS,
+					C.MASTER_W_O_CNTS_REVZ_NO,
+					C.MASTER_W_O_CNTS_DOC_REVZ_NO,
+					C.MASTER_W_O_CNTS_STTS_CD,
+					(SELECT CD.LOOKUP_NAME FROM XXPPL_CODE CD WHERE CD.LOOKUP_TYPE_NAME = '8000' AND CD.LOOKUP_CODE = C.MASTER_W_O_CNTS_STTS_CD) AS MASTER_W_O_CNTS_STTS_NM,
+					C.RELEASE_YN,
+					C.RELEASE_DATE,
+					C.TITLE_NAME,
+					C.LAST_UPDATED_BY,
+					NVL(C.LAST_UPDATED_BY_V,C.LAST_UPDATED_BY) AS LAST_UPDATED_BY_V, 
+					C.LAST_UPDATE_DATE
+					,RANK() OVER (PARTITION BY C.FILE_NAME ORDER BY TO_NUMBER(C.MASTER_W_O_CNTS_REVZ_NO) DESC) RNK
+				FROM XXPPL_MASTER_CONTENTS C 
+				<if test="searchValue!=''">
+				, XXPPL_CONTENT_MAP CM, XXPPL_KEYWORD K
+                </if>
+				WHERE 1=1			
+				<if test="searchValue!=''">
+				AND C.MASTER_WORKORDER_CONTENTS_ID = CM.MASTER_WORKORDER_CONTENTS_ID(+)
+				AND CM.PAPERLESS_KEYWORD_ID = K.PAPERLESS_KEYWORD_ID(+)
+				AND K.KEYWORD_NAME LIKE '%' || #{searchValue} || '%'
+                </if>
+
+				<if test="searchMaintDocModelCode!=''">
+				AND C.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+				</if>
+
+				<if test="searchWOCntsDocSubtypCd!=''">
+				AND C.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #{searchWOCntsDocSubtypCd} || '%'
+				</if>
+				<if test="searchMasterWOCntsTypCd!=''">
+				AND C.MASTER_W_O_CNTS_TYP_CD LIKE '%' || #{searchMasterWOCntsTypCd} || '%'
+				</if>
+
+				<if test="searchReleaseYn!=''">
+					<if test="searchReleaseYn == 'Y'">
+					AND C.RELEASE_YN = 'Y'
+					</if>
+					<if test="searchReleaseYn != 'Y'">
+					<![CDATA[
+						AND C.RELEASE_YN <> 'Y'
+					]]>
+					</if>
+				</if>
+				
+				<if test="searchMasterWOCntsSttsCd!=''">
+				AND C.MASTER_W_O_CNTS_STTS_CD = #{searchMasterWOCntsSttsCd} 
+				</if>
+				<if test="searchMasterWOCntsSttsCd == ''">
+				AND C.MASTER_W_O_CNTS_STTS_CD != 'D' 
+				</if>				
+
+				<if test="searchFileName!=''">
+				AND C.FILE_NAME LIKE '%' || #{searchFileName} || '%'
+				</if>
+				
+				<if test="searchAuthor!=''">
+				AND (C.LAST_UPDATED_BY LIKE '%' || #{searchAuthor} || '%' OR C.LAST_UPDATED_BY_V LIKE '%' || #{searchAuthor} || '%')
+				</if>
+				
+				<if test="searchStartDt!=''">        
+				  AND C.LAST_UPDATE_DATE >= TO_DATE(#{searchStartDt},'YYYY-MM-DD')
+				</if> 
+				<if test="searchEndDt!=''">        
+				  AND C.LAST_UPDATE_DATE &lt; TO_DATE(#{searchEndDt},'YYYY-MM-DD')+1
+				</if>   
+				) T0 
+				WHERE RNK = 1     					
+				ORDER BY T0.LAST_UPDATE_DATE DESC, T0.MASTER_WORKORDER_CONTENTS_ID DESC
+			) T WHERE ROWNUM &lt;= #{endRow}
+		)TT 
+		WHERE TT.RNUM >= #{startRow}
+	</select>
+
+	<select id="getContentRevisionList" parameterType="pMap" resultMap="content-default-map">
+		SELECT
+			C.MASTER_WORKORDER_CONTENTS_ID,
+			C.MAINT_DOC_MODEL_CODE,
+			C.W_O_CNTS_DOC_SUBTYP_CD,
+			C.MASTER_W_O_CNTS_TYP_CD,
+			C.FILE_NAME,
+			C.URL_ADDRESS,
+			C.MASTER_W_O_CNTS_REVZ_NO,
+			C.MASTER_W_O_CNTS_DOC_REVZ_NO,
+			C.MASTER_W_O_CNTS_STTS_CD,
+			C.RELEASE_YN,
+			C.RELEASE_DATE,
+			C.TITLE_NAME,
+			C.LAST_UPDATED_BY,
+			NVL(C.LAST_UPDATED_BY_V,C.LAST_UPDATED_BY) AS LAST_UPDATED_BY_V,
+			C.LAST_UPDATE_DATE
+		FROM XXPPL_MASTER_CONTENTS C 
+		WHERE C.FILE_NAME = #{fileName}
+			AND C.MASTER_W_O_CNTS_REVZ_NO = #{masterWOCntsRevzNo}
+			AND C.MASTER_W_O_CNTS_STTS_CD != 'D'
+		<if test="WOCntsDocSubtypCd == 'AMM'">
+		AND ROWNUM = 1
+		ORDER BY C.MASTER_WORKORDER_CONTENTS_ID DESC
+		</if>
+		<if test="WOCntsDocSubtypCd == 'KOR'">
+		ORDER BY C.MASTER_WORKORDER_CONTENTS_ID ASC
+		</if>
+	</select>
+	
+    <select id="getContentNextRevisionSeq" parameterType="pMap" resultMap="content-revision-map">
+	SELECT 
+		MASTER_WORKORDER_CONTENTS_ID
+		,NVL(MASTER_W_O_CNTS_REVZ_NO, 0) + CASE WHEN RELEASE_YN = 'Y' THEN 1 ELSE 0 END MASTER_W_O_CNTS_REVZ_NO
+		,NVL(MASTER_W_O_CNTS_DOC_REVZ_NO, 0) MASTER_W_O_CNTS_DOC_REVZ_NO
+		,NVL(RELEASE_YN, 'N') RELEASE_YN
+	FROM XXPPL_MASTER_CONTENTS
+	WHERE FILE_NAME = #{fileName}
+		AND MASTER_W_O_CNTS_STTS_CD != 'D'
+		AND NVL(TO_NUMBER(MASTER_W_O_CNTS_REVZ_NO),0) = (
+				select NVL(MAX(TO_NUMBER(MASTER_W_O_CNTS_REVZ_NO)), 0) NEXT_MASTER_W_O_CNTS_REVZ_NO
+				from XXPPL_MASTER_CONTENTS
+				where FILE_NAME = #{fileName}
+					AND MASTER_W_O_CNTS_STTS_CD != 'D')
+		AND ROWNUM = 1
+	</select>
+	
+    <select id="getContentRevisionInfo" parameterType="pMap" resultMap="content-default-map">
+    select * 
+    from (
+		SELECT 	C.MASTER_WORKORDER_CONTENTS_ID,
+				C.MAINT_DOC_MODEL_CODE,
+				C.W_O_CNTS_DOC_SUBTYP_CD,
+				C.MASTER_W_O_CNTS_TYP_CD,
+				C.FILE_NAME,
+				C.URL_ADDRESS,
+				C.MASTER_W_O_CNTS_REVZ_NO,
+				C.MASTER_W_O_CNTS_DOC_REVZ_NO,
+				C.MASTER_W_O_CNTS_STTS_CD,
+				C.RELEASE_YN,
+				C.RELEASE_DATE,
+				C.TITLE_NAME,
+				C.LAST_UPDATED_BY,
+				NVL(C.LAST_UPDATED_BY_V,C.LAST_UPDATED_BY) AS LAST_UPDATED_BY_V,
+				C.LAST_UPDATE_DATE
+		FROM XXPPL_MASTER_CONTENTS c
+		WHERE FILE_NAME = #{fileName}
+			AND C.MASTER_W_O_CNTS_STTS_CD != 'D'
+			AND NVL(TO_NUMBER(MASTER_W_O_CNTS_REVZ_NO),0) = (
+				select NVL(MAX(TO_NUMBER(MASTER_W_O_CNTS_REVZ_NO)), 0) NEXT_MASTER_W_O_CNTS_REVZ_NO
+				from XXPPL_MASTER_CONTENTS
+				where FILE_NAME = #{fileName}
+					AND MASTER_W_O_CNTS_STTS_CD != 'D')
+		ORDER BY LAST_UPDATE_DATE desc		
+		)
+	where rownum = 1
+	</select>
+
+	<insert id="addContent" parameterType="pMap">
+		<selectKey resultType="int" keyProperty="masterWorkorderContentsId">
+			select XXPPL_MASTER_CONTENTS_ID_SEQ.nextval as masterWorkorderContentsId from dual
+		</selectKey>
+		insert into XXPPL_MASTER_CONTENTS
+		(
+			MASTER_WORKORDER_CONTENTS_ID,
+			MAINT_DOC_MODEL_CODE,
+			W_O_CNTS_DOC_SUBTYP_CD,
+			MASTER_W_O_CNTS_TYP_CD,
+			FILE_NAME,
+			URL_ADDRESS,
+			MASTER_W_O_CNTS_REVZ_NO,
+			MASTER_WORKORDER_CNTS_REVZ_DT,
+			MASTER_W_O_CNTS_STTS_CD,
+			RELEASE_YN, 
+			RELEASE_DATE,
+			TITLE_NAME,
+			LAST_UPDATED_BY,
+			LAST_UPDATE_DATE,
+  			CREATED_BY,
+  			CREATION_DATE,
+  			CREATED_BY_V,
+  			LAST_UPDATED_BY_V 
+		) values (
+			#{masterWorkorderContentsId},
+			#{maintDocModelCode},
+			#{WOCntsDocSubtypCd},
+			#{masterWOCntsTypCd},
+			#{fileName},
+			#{urlAddress},
+			#{revSeq},
+			SYSDATE,
+			#{masterWOCntsSttsCd},  
+			<if test="releaseYn!=''">
+				<if test="releaseYn=='Y'">
+				'Y',
+				sysdate,
+				</if>
+				<if test="releaseYn!='Y'">
+				'N',
+				null,
+				</if>
+			</if>
+			<if test="releaseYn==''">
+			'N',
+			null,
+			</if>
+			substr(#{titleName},1,240),
+			#{userId},
+			sysdate,
+			#{userId},
+			sysdate,
+			#{userIdV},
+			#{userIdV}
+		)
+	</insert>
+
+	<insert id="addTaskInfo" parameterType="pMap">
+		<selectKey keyProperty="masterWOCntsTskId" resultType="int">
+			SELECT XXPPL_TASK_ID_SEQ.nextval FROM DUAL
+		</selectKey>
+		INSERT INTO XXPPL_TASK
+		(
+			MASTER_W_O_CNTS_TSK_ID,
+			MASTER_W_O_CNTS_TSK_TYP_CD,
+			MAINT_DOC_MODEL_CODE,
+			W_O_CNTS_DOC_SUBTYP_CD,
+			MASTER_W_O_CNTS_TYP_CD,
+			MASTER_W_O_CNTS_TSK_CTN,
+			WORK_START_DATETIME,
+			WORK_END_DATETIME,
+			RELEASE_YN,
+			<if test="releaseYn == 'Y'">
+			RELEASE_DATE,
+			</if>
+			MASTER_W_O_CNTS_TSK_STTS_CD,
+			CREATED_BY,
+			CREATED_BY_V,
+			CREATION_DATE,
+			SQL_WHERE_CLAUSE_CONTENTS,
+			USER_ID,
+			FILE_NAME,
+			URL_ADDRESS
+		) values (
+			#{masterWOCntsTskId},
+			#{masterWOCntsTskTypCd},
+			#{maintDocModelCode},
+			#{WOCntsDocSubtypCd},
+			#{masterWOCntsTypCd},
+			#{description},
+			sysdate,
+			null,
+			#{releaseYn},
+			<if test="releaseYn == 'Y'">
+			sysdate,
+			</if>
+			#{masterWOCntsTskSttsCd},
+			#{userId},
+			#{userId},
+			sysdate,
+			#{userData},
+			#{userId},
+			<if test="urlAddress==''">
+			null,
+			null
+			</if>
+			<if test="urlAddress != ''">
+			#{fileName},
+			#{urlAddress}
+			</if>
+		)
+	</insert>
+	
+	<insert id="addContentKeyword" parameterType="pMap">
+		<selectKey resultType="int" keyProperty="keywordId">
+			select XXPPL_KEYWORD_ID_SEQ.nextval as keywordId from dual
+		</selectKey>
+		insert into XXPPL_KEYWORD
+		(
+			PAPERLESS_KEYWORD_ID,
+			KEYWORD_NAME
+		) values (
+			#{keywordId},
+			#{keyword}
+		)
+	</insert>
+	
+	<insert id="addContentMap" parameterType="pMap">
+		insert into XXPPL_CONTENT_MAP
+		(
+			MASTER_WORKORDER_CONTENTS_ID,
+			PAPERLESS_KEYWORD_ID
+		) values (
+			#{masterWorkorderContentsId},
+			#{keywordId}
+		)
+	</insert>
+	
+	<update id="updateContentRelease" parameterType="pMap">
+        update XXPPL_MASTER_CONTENTS
+			set
+				RELEASE_YN = 'Y',
+				RELEASE_DATE = sysdate
+		where MASTER_WORKORDER_CONTENTS_ID = #{masterWorkorderContentsId}
+    </update>
+    
+	<update id="updateTaskRelease" parameterType="pMap">
+        update XXPPL_TASK
+			set
+				RELEASE_YN = 'Y',
+				RELEASE_DATE = sysdate
+		where MASTER_W_O_CNTS_TSK_ID = #{masterWOCntsTskId}
+    </update>
+    
+	<update id="updateTaskContentRelease" parameterType="pMap">
+		update XXPPL_MASTER_CONTENTS
+			set
+				RELEASE_YN = 'Y',
+				RELEASE_DATE = sysdate
+           WHERE    
+           MASTER_WORKORDER_CONTENTS_ID IN (SELECT MASTER_WORKORDER_CONTENTS_ID 
+           		FROM XXPPL_TASK_CONTENTS 
+           		WHERE MASTER_W_O_CNTS_TSK_ID = #{masterWOCntsTskId})
+    </update>
+    
+	<update id="updateContentDelete" parameterType="pMap">
+        update XXPPL_MASTER_CONTENTS
+			set
+				MASTER_W_O_CNTS_STTS_CD = #{masterWOCntsSttsCd}
+		where MASTER_WORKORDER_CONTENTS_ID IN
+		<foreach collection="contentCheck" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+    
+	<update id="updateContentRevision" parameterType="pMap">
+	UPDATE XXPPL_MASTER_CONTENTS
+	SET LAST_UPDATE_DATE = SYSDATE 
+		,LAST_UPDATED_BY = #{userId}
+		,LAST_UPDATED_BY_V = #{userIdV}
+		,MASTER_W_O_CNTS_DOC_REVZ_DT = SYSDATE
+	WHERE MASTER_WORKORDER_CONTENTS_ID = #{masterWorkorderContentsId}
+    </update>
+
+ 	<select id="getContentProcessTotalCount" parameterType="pMap" resultType="Integer">
+ 	SELECT COUNT(T0.MASTER_W_O_CNTS_TSK_ID) CNT FROM (
+		SELECT T.MASTER_W_O_CNTS_TSK_ID
+			<if test="searchRevSeq != ''">
+			,RANK() OVER (PARTITION BY C.FILE_NAME ORDER BY NVL(TO_NUMBER(C.MASTER_W_O_CNTS_REVZ_NO),0) DESC) RNK
+			</if>
+		FROM XXPPL_TASK T
+			<if test="searchRevSeq != ''">
+			,XXPPL_TASK_CONTENTS M
+        	,XXPPL_MASTER_CONTENTS C
+        	</if>
+		WHERE T.MASTER_W_O_CNTS_TSK_STTS_CD != '7006'
+		  AND T.MASTER_W_O_CNTS_TSK_TYP_CD IN ('5001','5002','5003') 
+			<if test="searchRevSeq != ''">
+            AND T.MASTER_W_O_CNTS_TSK_ID = M.MASTER_W_O_CNTS_TSK_ID
+            AND M.MASTER_WORKORDER_CONTENTS_ID = C.MASTER_WORKORDER_CONTENTS_ID
+            AND C.MASTER_W_O_CNTS_REVZ_NO = #{searchRevSeq}
+            AND C.MASTER_W_O_CNTS_STTS_CD != 'D'
+        	</if>		
+		
+			<if test="searchMaintDocModelCode != ''">
+			AND T.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+			</if>
+			<if test="searchWOCntsDocSubtypCd != ''">
+			AND T.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #{searchWOCntsDocSubtypCd} '%'
+			</if>
+			<if test="searchMasterWOCntsTypCd != ''">
+			AND T.MASTER_W_O_CNTS_TYP_CD LIKE '%' || #{searchMasterWOCntsTypCd} '%'
+			</if>
+			
+			<if test="searchReleaseYn != ''">
+				<if test="searchReleaseYn == 'Y'">
+				AND T.RELEASE_YN = 'Y'
+				</if>
+				<if test="searchReleaseYn == 'Y'">
+				<![CDATA[
+				AND T.RELEASE_YN <> 'Y'
+				]]>
+				</if>
+			</if>
+			
+			<if test="searchReviseType != ''">
+			AND T.MASTER_W_O_CNTS_STTS_CD = #{searchReviseType} 
+			</if>
+
+			<if test="searchStartDt != ''">        
+			  AND T.WORK_START_DATETIME >= TO_DATE(#{searchStartDt},'YYYY-MM-DD')
+			</if> 
+			<if test="searchEndDt != ''">        
+			  AND T.WORK_START_DATETIME &lt; TO_DATE(#{searchEndDt},'YYYY-MM-DD')+1
+			</if>  
+			<if test="searchTaskType != ''">
+				<if test="searchTaskType == 'IM'">
+			AND T.MASTER_W_O_CNTS_TSK_TYP_CD IN ('5001','5003')
+				</if>
+				<if test="searchTaskType == 'EX'">
+			AND T.MASTER_W_O_CNTS_TSK_TYP_CD IN ('5002')
+				</if>
+			</if>
+			<if test="searchAuthor != ''">
+			AND (T.CREATED_BY LIKE '%' || #{searchAuthor} '%' OR T.CREATED_BY_V LIKE '%' || #{searchAuthor} '%')
+			</if>			
+		
+	) T0
+		<if test="searchRevSeq != ''">
+	WHERE RNK = 1
+		</if>
+	</select>
+
+	<select id="getContentProcessPageList" parameterType="pMap" resultMap="content-task-map">
+		SELECT TT.*
+	  		,(SELECT MAX(NVL(TO_NUMBER(C.MASTER_W_O_CNTS_DOC_REVZ_NO), 0)) MASTER_W_O_CNTS_DOC_REVZ_NO
+			FROM XXPPL_TASK T
+	        	,XXPPL_TASK_CONTENTS M
+	        	,XXPPL_MASTER_CONTENTS C
+			WHERE T.MASTER_W_O_CNTS_TSK_ID = M.MASTER_W_O_CNTS_TSK_ID
+	            AND M.MASTER_WORKORDER_CONTENTS_ID = C.MASTER_WORKORDER_CONTENTS_ID
+	            AND T.MASTER_W_O_CNTS_TSK_ID = TT.MASTER_W_O_CNTS_TSK_ID )			
+			MASTER_W_O_CNTS_REVZ_NO
+		 FROM (
+			SELECT T.*, ROWNUM RNUM FROM(
+				SELECT T0.* FROM (
+				SELECT
+					T.MASTER_W_O_CNTS_TSK_ID,
+					T.MAINT_DOC_MODEL_CODE,
+					T.W_O_CNTS_DOC_SUBTYP_CD,
+					T.MASTER_W_O_CNTS_TYP_CD,
+					/* C.MASTER_W_O_CNTS_REVZ_NO, */
+					T.MASTER_W_O_CNTS_TSK_CTN,
+					T.RELEASE_YN,
+					T.RELEASE_DATE,
+					T.CREATED_BY,
+					LPAD(TO_CHAR(NVL(T.CREATED_BY,T.CREATED_BY_V)),7,0) AS CREATED_BY_V,
+					T.CREATION_DATE,
+					T.MASTER_W_O_CNTS_TSK_TYP_CD,
+					T.WORK_START_DATETIME,
+					T.WORK_END_DATETIME,
+					T.MASTER_W_O_CNTS_TSK_STTS_CD,
+					T.USER_ID,
+					T.FILE_NAME,
+					T.URL_ADDRESS,
+					'Y' AS LATEST_REV_YN,
+					<if test="searchRevSeq != ''">
+					RANK() OVER (PARTITION BY C.FILE_NAME ORDER BY NVL(TO_NUMBER(C.MASTER_W_O_CNTS_REVZ_NO),0) DESC) RNK
+					</if>
+					<if test="searchRevSeq == ''">
+					1 AS RNK
+					</if>
+				FROM XXPPL_TASK T
+				<if test="searchRevSeq != ''">
+					,XXPPL_TASK_CONTENTS M
+		        	,XXPPL_MASTER_CONTENTS C
+		        </if>
+				WHERE T.MASTER_W_O_CNTS_TSK_STTS_CD != '7006'
+				  AND T.MASTER_W_O_CNTS_TSK_TYP_CD IN ('5001','5002','5003') 
+				<if test="searchRevSeq != ''">
+		            AND T.MASTER_W_O_CNTS_TSK_ID = M.MASTER_W_O_CNTS_TSK_ID
+		            AND M.MASTER_WORKORDER_CONTENTS_ID = C.MASTER_WORKORDER_CONTENTS_ID
+		            AND C.MASTER_W_O_CNTS_REVZ_NO = #{searchRevSeq}
+		            AND C.MASTER_W_O_CNTS_STTS_CD != 'D'
+		        </if>				
+				
+				<if test="searchMaintDocModelCode != ''">
+					AND T.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+				</if>
+
+				<if test="searchWOCntsDocSubtypCd != ''">
+					AND T.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #{searchWOCntsDocSubtypCd} '%'
+				</if>
+				<if test="searchMasterWOCntsTypCd != ''">
+					AND T.MASTER_W_O_CNTS_TYP_CD LIKE '%' || #{searchMasterWOCntsTypCd} '%'
+				</if>
+
+				<if test="searchReleaseYn != ''">
+					<if test="searchReleaseYn == 'Y'">
+						AND T.RELEASE_YN = 'Y'
+					</if>
+					<if test="searchReleaseYn != 'Y'">
+					<![CDATA[
+						AND T.RELEASE_YN <> 'Y'
+					]]>
+					</if>
+				</if>
+				<if test="searchStartDt != ''">        
+				  AND T.WORK_START_DATETIME >= TO_DATE(#{searchStartDt},'YYYY-MM-DD')
+				</if> 
+				<if test="searchEndDt != ''">        
+				  AND T.WORK_START_DATETIME &lt; TO_DATE(#{searchEndDt},'YYYY-MM-DD')+1
+				</if>
+				<if test="searchTaskType != ''">
+					<if test="searchTaskType == 'IM'">
+					AND T.MASTER_W_O_CNTS_TSK_TYP_CD IN ('5001','5003')
+					</if>
+					<if test="searchTaskType == 'EX'">
+					AND T.MASTER_W_O_CNTS_TSK_TYP_CD IN ('5002')
+					</if>
+				</if>
+				<if test="searchAuthor != ''">
+				AND (T.CREATED_BY LIKE '%' || #{searchAuthor} '%' OR T.CREATED_BY_V LIKE '%' || #{searchAuthor} '%')
+				</if>
+				) T0
+				WHERE RNK = 1
+				ORDER BY T0.MASTER_W_O_CNTS_TSK_ID DESC
+			) T WHERE ROWNUM &lt;= #{endRow}
+		)TT
+		WHERE TT.RNUM >= #startRow#
+	</select>
+	
+ 	<select id="getDownloadContentProcessTotalCount" parameterType="pMap" resultType="Integer">
+ 	SELECT COUNT(MASTER_WORKORDER_CONTENTS_ID) CNT FROM (
+		SELECT C.MASTER_WORKORDER_CONTENTS_ID
+			,RANK() OVER (PARTITION BY C.FILE_NAME ORDER BY TO_NUMBER(C.MASTER_W_O_CNTS_REVZ_NO) DESC) RNK
+		FROM XXPPL_MASTER_CONTENTS C
+			,XXPPL_TASK_CONTENTS R
+			,XXPPL_TASK T 
+			<if test="searchValue != ''">
+			, XXPPL_CONTENT_MAP CM, XXPPL_KEYWORD K
+              </if>
+		WHERE C.MASTER_WORKORDER_CONTENTS_ID = R.MASTER_WORKORDER_CONTENTS_ID(+)
+			AND C.MASTER_W_O_CNTS_STTS_CD != 'D'
+			AND R.MASTER_W_O_CNTS_TSK_ID = T.MASTER_W_O_CNTS_TSK_ID(+)
+			<if test="searchValue != ''">
+			AND C.MASTER_WORKORDER_CONTENTS_ID = CM.MASTER_WORKORDER_CONTENTS_ID(+)
+			AND CM.KEYWORD_ID = K.KEYWORD_ID(+)
+			AND K.KEYWORD LIKE '%' || #{searchValue} '%'
+	         </if>
+	
+			<if test="searchMaintDocModelCode != ''">
+			AND C.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+			</if>
+	
+			<if test="searchWOCntsDocSubtypCd != ''">
+			AND C.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #{searchWOCntsDocSubtypCd} '%'
+			</if>
+			<if test="searchMasterWOCntsTypCd != ''">
+			AND C.MASTER_W_O_CNTS_TYP_CD LIKE '%' || #{searchMasterWOCntsTypCd} '%'
+			</if>
+	
+			<if test="searchReleaseYn != ''">
+				<if test="searchReleaseYn == 'Y'">
+				AND C.RELEASE_YN = 'Y'
+				</if>
+				<if test="searchReleaseYn != 'Y'">
+				<![CDATA[
+					AND C.RELEASE_YN <> 'Y'
+				]]>
+				</if>			
+			</if>
+			
+			<if test="searchReviseType != ''">
+			AND C.MASTER_W_O_CNTS_STTS_CD = #{searchReviseType} 
+			</if>
+	
+			<if test="searchRevSeq != ''">
+			AND C.MASTER_W_O_CNTS_REVZ_NO = #{searchRevSeq}
+			</if>
+
+			<if test="searchStartDt != ''">        
+			  AND C.LAST_UPDATE_DATE >= TO_DATE(#searchStartDt},'YYYY-MM-DD')
+			</if> 
+			<if test="searchEndDt != ''">        
+			  AND C.LAST_UPDATE_DATE &lt; TO_DATE(#searchEndDt},'YYYY-MM-DD')+1
+			</if>  
+			<if test="searchFileName != ''">
+				<if test="searchFileNameGb == 'M'">
+				AND C.FILE_NAME = #{searchFileName}
+				</if>
+				<if test="searchFileNameGb == 'S'">
+				AND C.FILE_NAME LIKE '%'||#{searchFileName}||'%'
+				</if>
+			</if>
+			<if test="searchAuthor != ''">
+			AND (C.LAST_UPDATED_BY LIKE '%' || #{searchAuthor} || '%' OR C.LAST_UPDATED_BY_V LIKE '%' || #{searchAuthor} || '%')
+			</if>
+			) T0
+	WHERE RNK = 1 
+	</select>
+	
+	<select id="getDownloadContentProcessPageList" parameterType="pMap" resultMap="content-process-map">
+		SELECT TT.* FROM (
+			SELECT T.*, ROWNUM RNUM FROM(
+				SELECT T0.* FROM (
+					SELECT
+						C.MASTER_WORKORDER_CONTENTS_ID,
+						C.MAINT_DOC_MODEL_CODE,
+						C.W_O_CNTS_DOC_SUBTYP_CD,
+						C.MASTER_W_O_CNTS_TYP_CD,
+						C.FILE_NAME,
+						C.URL_ADDRESS,
+						C.MASTER_W_O_CNTS_REVZ_NO,
+						C.MASTER_W_O_CNTS_STTS_CD,
+						C.RELEASE_YN,
+						C.RELEASE_DATE,
+						C.TITLE_NAME,
+						C.LAST_UPDATED_BY,
+						NVL(C.LAST_UPDATED_BY_V,C.LAST_UPDATED_BY) LAST_UPDATED_BY_V,
+						C.LAST_UPDATE_DATE,
+						T.MASTER_W_O_CNTS_TSK_TYP_CD,
+						T.WORK_START_DATETIME,
+						T.WORK_END_DATETIME,
+						T.MASTER_W_O_CNTS_TSK_STTS_CD,
+						CASE WHEN TO_NUMBER(C.MASTER_W_O_CNTS_REVZ_NO) = (SELECT MAX(TO_NUMBER(C2.MASTER_W_O_CNTS_REVZ_NO)) MAX_MASTER_W_O_CNTS_REVZ_NO
+								FROM XXPPL_MASTER_CONTENTS C2 , XXPPL_TASK_CONTENTS R2
+			                	WHERE C2.MASTER_WORKORDER_CONTENTS_ID = R2.MASTER_WORKORDER_CONTENTS_ID
+			                		AND R2.MASTER_W_O_CNTS_TSK_ID = T.MASTER_W_O_CNTS_TSK_ID
+			                	GROUP BY R2.MASTER_W_O_CNTS_TSK_ID) THEN 'Y' 
+		                	ELSE 'N' 
+		                	END AS LATEST_REV_YN
+		                ,RANK() OVER (PARTITION BY C.FILE_NAME ORDER BY TO_NUMBER(C.MASTER_W_O_CNTS_REVZ_NO) DESC) RNK
+					FROM XXPPL_MASTER_CONTENTS C 
+						,XXPPL_TASK_CONTENTS R
+						,XXPPL_TASK T
+					<if test="searchValue != ''">
+					, XXPPL_CONTENT_MAP CM, XXPPL_KEYWORD K
+	                </if>
+					WHERE C.MASTER_WORKORDER_CONTENTS_ID = R.MASTER_WORKORDER_CONTENTS_ID(+)
+						AND C.MASTER_W_O_CNTS_STTS_CD != 'D'
+						AND R.MASTER_W_O_CNTS_TSK_ID = T.MASTER_W_O_CNTS_TSK_ID(+)	
+	
+					<if test="searchValue != ''">
+					AND C.MASTER_WORKORDER_CONTENTS_ID = CM.MASTER_WORKORDER_CONTENTS_ID(+)
+					AND CM.KEYWORD_ID = K.KEYWORD_ID(+)
+					AND K.KEYWORD LIKE '%' || #{searchValue} || '%'
+	                </if>
+	
+					<if test="searchMaintDocModelCode != ''">
+					AND C.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+					</if>
+	
+					<if test="searchWOCntsDocSubtypCd != ''">
+					AND C.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #{searchWOCntsDocSubtypCd} || '%'
+					</if>
+					<if test="searchMasterWOCntsTypCd != ''">
+					AND C.MASTER_W_O_CNTS_TYP_CD LIKE '%' || #{searchMasterWOCntsTypCd} || '%'
+					</if>
+	
+					<if test="searchReleaseYn != ''">
+						<if test="searchReleaseYn == 'Y'">
+						AND C.RELEASE_YN = 'Y'
+						</if>
+						<if test="searchReleaseYn != 'Y'">
+						<![CDATA[
+							AND C.RELEASE_YN <> 'Y'
+						]]>
+						</if>
+					</if>
+					
+					<if test="searchReviseType != ''">
+					AND C.MASTER_W_O_CNTS_STTS_CD = #{searchReviseType} 
+					</if>
+	
+					<if test="searchRevSeq != ''">
+					AND C.MASTER_W_O_CNTS_REVZ_NO = #{searchRevSeq}
+					</if>
+					
+					<if test="searchStartDt != ''">        
+					  AND C.LAST_UPDATE_DATE >= TO_DATE(#{searchStartDt},'YYYY-MM-DD')
+					</if>
+					<if test="searchEndDt != ''">        
+					  AND C.LAST_UPDATE_DATE &lt; TO_DATE(#{searchEndDt},'YYYY-MM-DD')+1
+					</if>
+					<if test="searchFileName != ''">
+						<if test="searchFileNameGb == 'M'">
+						AND C.FILE_NAME = #{searchFileName}
+						</if>
+						<if test="searchFileNameGb == 'S'">
+						AND C.FILE_NAME LIKE '%'||#{searchFileName}||'%'
+						</if>
+					</if>					
+					<if test="searchAuthor != ''">
+					AND (C.LAST_UPDATED_BY LIKE '%' || #{searchAuthor} || '%' OR C.LAST_UPDATED_BY_V LIKE '%' || #{searchAuthor} || '%')
+					</if>
+				) T0
+				WHERE RNK = 1
+				ORDER BY T0.MASTER_WORKORDER_CONTENTS_ID DESC
+			) T WHERE ROWNUM &lt;= #{endRow}
+		)TT
+		WHERE TT.RNUM >= #{startRow}
+	</select>
+	
+	<select id="getImageContentProcessTotalCount" parameterType="pMap" resultType="Integer">
+	SELECT 
+	    COUNT(MASTER_W_O_CNTS_IMG_ID) CNT
+	FROM XXPPL_IMAGE C
+	WHERE 1=1
+		<if test="searchMaintDocModelCode != ''">
+		AND C.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+		</if>
+		<if test="searchWOCntsDocSubtypCd != ''">
+		AND C.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #{searchWOCntsDocSubtypCd} || '%'
+		</if>
+		<if test="searchFileName != ''">
+			<if test="searchFileNameGb == 'M'">
+			AND C.FILE_NAME = #{searchFileName}
+			</if>
+			<if test="searchFileNameGb == 'S'">
+			AND C.FILE_NAME LIKE '%'||#{searchFileName}||'%'
+			</if>
+		</if>
+	</select>
+
+	<select id="getImageContentProcessPageList" parameterType="pMap" resultMap="image-process-map">
+		SELECT TT.* FROM (
+			SELECT T.*, ROWNUM RNUM FROM (
+                 SELECT 
+                     MASTER_W_O_CNTS_IMG_ID
+                     ,FILE_NAME             
+                     ,URL_ADDRESS           
+                     ,MAINT_DOC_MODEL_CODE  
+                     ,W_O_CNTS_DOC_SUBTYP_CD
+                     ,'IMAGE' MASTER_W_O_CNTS_TYP_CD
+                 FROM XXPPL_IMAGE T0
+                 WHERE 1=1
+					<if test="searchMaintDocModelCode != ''">
+					AND T0.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+					</if>
+					<if test="searchWOCntsDocSubtypCd != ''">
+					AND T0.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #{searchWOCntsDocSubtypCd} || '%'
+					</if>
+					<if test="searchFileName!=''">
+						<if test="searchFileNameGb=='M'">
+						AND T0.FILE_NAME = #{searchFileName}
+						</if>
+						<if test="searchFileNameGb == 'S'">
+						AND T0.FILE_NAME LIKE '%'||#{searchFileName}||'%'
+						</if>
+					</if>
+				ORDER BY T0.MASTER_W_O_CNTS_IMG_ID DESC
+			) T
+			WHERE ROWNUM &lt;= #{endRow}
+		)TT
+		WHERE TT.RNUM >= #{startRow}
+	</select>
+	
+	
+	<!-- Check whether a image file is already exist. 2014.04.17 by air -->
+    <select id="getCountExistImageFile" parameterType="pMap" resultType="Integer">
+    <![CDATA[
+		SELECT COUNT(1) AS EXIST_CNT
+		  FROM XXPPL_IMAGE XIMG
+		 WHERE XIMG.FILE_NAME = #{fileName}
+		   AND XIMG.MAINT_DOC_MODEL_CODE = #{maintDocModelCode}
+		   AND XIMG.W_O_CNTS_DOC_SUBTYP_CD = #{WOCntsDocSubtypCd}
+    ]]>
+    </select>	
+	
+	
+	<insert id="addContentInfo" parameterType="pMap">
+		<selectKey resultType="int" keyProperty="masterWorkorderContentsId">
+			select XXPPL_MASTER_CONTENTS_ID_SEQ.nextval as masterWorkorderContentsId from dual
+		</selectKey>
+		insert into XXPPL_MASTER_CONTENTS
+		(
+			MASTER_WORKORDER_CONTENTS_ID,
+			MAINT_DOC_MODEL_CODE,
+			W_O_CNTS_DOC_SUBTYP_CD,
+			MASTER_W_O_CNTS_TYP_CD,
+			FILE_NAME,
+			URL_ADDRESS,
+			MASTER_W_O_CNTS_REVZ_NO,
+			MASTER_W_O_CNTS_STTS_CD,
+			RELEASE_YN,
+			RELEASE_DATE,
+			TITLE_NAME,
+			LAST_UPDATED_BY,
+			LAST_UPDATE_DATE,
+  			CREATED_BY,
+  			CREATION_DATE,
+  			CREATED_BY_V,
+  			LAST_UPDATED_BY_V 
+		) values (
+			#{masterWorkorderContentsId},
+			#{maintDocModelCode},
+			#{WOCntsDocSubtypCd},
+			#{masterWOCntsTypCd},
+			#{fileName},
+			#{urlAddress},
+			#{masterWOCntsRevzNo},
+			#{masterWOCntsSttsCd},
+			'N',
+			null,
+			substr(#{titleName},1,240),
+			#{userId},
+			sysdate,
+			#{userId},
+			sysdate,
+			#{userIdV},
+			#{userIdV}
+		)
+	</insert>
+
+	<insert id="addTaskContents" parameterType="pMap">
+		insert into XXPPL_TASK_CONTENTS
+		(
+			MASTER_W_O_CNTS_TSK_ID,
+			MASTER_WORKORDER_CONTENTS_ID
+		) values (
+			#{masterWOCntsTskId},
+			#{masterWorkorderContentsId}
+		)
+	</insert>
+
+	<insert id="addImageInfo" parameterType="pMap">
+		insert into XXPPL_IMAGE
+		(
+			MASTER_W_O_CNTS_IMG_ID,
+			FILE_NAME,
+			URL_ADDRESS,
+			MAINT_DOC_MODEL_CODE,
+			W_O_CNTS_DOC_SUBTYP_CD
+		) values (
+			XXPPL_IMAGE_ID_SEQ.nextval,
+			#{fileName},
+			#{urlAddress},
+			#{maintDocModelCode},
+			#{WOCntsDocSubtypCd}
+		)
+	</insert>
+	
+	<select id="getSelectContentList" parameterType="pMap" resultMap="content-default-map">
+		SELECT
+			C.MASTER_WORKORDER_CONTENTS_ID,
+			C.MAINT_DOC_MODEL_CODE,
+			C.W_O_CNTS_DOC_SUBTYP_CD,
+			C.MASTER_W_O_CNTS_TYP_CD,
+			C.FILE_NAME,
+			C.URL_ADDRESS,
+			C.MASTER_W_O_CNTS_REVZ_NO,
+			C.MASTER_W_O_CNTS_DOC_REVZ_NO,
+			C.MASTER_W_O_CNTS_STTS_CD,
+			C.RELEASE_YN,
+			C.RELEASE_DATE,
+			C.TITLE_NAME,
+			C.LAST_UPDATED_BY,
+			NVL(C.LAST_UPDATED_BY_V,C.LAST_UPDATED_BY) AS LAST_UPDATED_BY_V,
+			C.LAST_UPDATE_DATE
+		FROM XXPPL_MASTER_CONTENTS C
+		WHERE 
+			C.MASTER_WORKORDER_CONTENTS_ID IN
+			<foreach collection="contentIds" item="item" index="index"  open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+				
+	</select>
+	
+	<select id="getSelectImageList" parameterType="pMap" resultMap="image-process-map">
+		SELECT
+            MASTER_W_O_CNTS_IMG_ID
+            ,FILE_NAME             
+            ,URL_ADDRESS           
+            ,MAINT_DOC_MODEL_CODE  
+            ,W_O_CNTS_DOC_SUBTYP_CD
+            ,'IMAGE' MASTER_W_O_CNTS_TYP_CD
+        FROM XXPPL_IMAGE T0
+		WHERE 
+			MASTER_W_O_CNTS_IMG_ID IN
+			<foreach collection="contentIds" item="item" index="index"  open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+	</select>
+	
+	<select id="getSelectAllContentList" parameterType="pMap" resultMap="content-default-map">
+		SELECT TT.* FROM (
+			SELECT T.*, ROWNUM RNUM FROM(
+				SELECT T0.* FROM (
+				SELECT
+					C.MASTER_WORKORDER_CONTENTS_ID,
+					C.MAINT_DOC_MODEL_CODE,
+					C.W_O_CNTS_DOC_SUBTYP_CD,
+					C.MASTER_W_O_CNTS_TYP_CD,
+					C.FILE_NAME,
+					C.URL_ADDRESS,
+					C.MASTER_W_O_CNTS_REVZ_NO,
+					C.MASTER_W_O_CNTS_DOC_REVZ_NO,
+					C.MASTER_W_O_CNTS_STTS_CD,
+					C.RELEASE_YN,
+					C.RELEASE_DATE,
+					C.TITLE_NAME,
+					C.LAST_UPDATED_BY,
+					NVL(C.LAST_UPDATED_BY_V,C.LAST_UPDATED_BY) AS LAST_UPDATED_BY_V,
+					C.LAST_UPDATE_DATE
+					,RANK() OVER (PARTITION BY C.FILE_NAME ORDER BY TO_NUMBER(C.MASTER_W_O_CNTS_REVZ_NO) DESC) RNK
+				FROM XXPPL_MASTER_CONTENTS C 
+					,XXPPL_TASK_CONTENTS R
+					,XXPPL_TASK T
+				<if test="searchValue!=''">
+				, XXPPL_CONTENT_MAP CM, XXPPL_KEYWORD K
+                </if>
+				WHERE C.MASTER_WORKORDER_CONTENTS_ID = R.MASTER_WORKORDER_CONTENTS_ID(+)
+					AND C.MASTER_W_O_CNTS_STTS_CD != 'D'
+					AND R.MASTER_W_O_CNTS_TSK_ID = T.MASTER_W_O_CNTS_TSK_ID(+)	
+
+				<if test="searchValue!=''">
+					AND C.MASTER_WORKORDER_CONTENTS_ID = CM.MASTER_WORKORDER_CONTENTS_ID(+)
+					AND CM.KEYWORD_ID = K.KEYWORD_ID(+)
+					AND K.KEYWORD LIKE '%' || #{searchValue} || '%'
+                </if>
+
+				<if test = "searchMaintDocModelCode != ''">
+					AND C.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+				</if>
+
+				<if test="searchWOCntsDocSubtypCd != ''">
+					AND C.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #{searchWOCntsDocSubtypCd} || '%'
+				</if>
+				<if test="searchMasterWOCntsTypCd != ''">
+					AND C.MASTER_W_O_CNTS_TYP_CD LIKE '%' || #{searchMasterWOCntsTypCd} || '%'
+				</if>
+
+				<if test="searchReleaseYn != ''">
+					<if test="searchReleaseYn=='Y'">
+						AND C.RELEASE_YN = 'Y'
+					</if>
+					<if test="searchReleaseYn != 'Y'">
+					<![CDATA[
+						AND C.RELEASE_YN <> 'Y'
+					]]>
+					</if>
+				</if>
+				
+				<if test="searchReviseType != ''">
+					AND C.MASTER_W_O_CNTS_STTS_CD = #{searchReviseType} 
+				</if>
+
+				<if test="searchRevSeq != ''">
+					AND C.MASTER_W_O_CNTS_REVZ_NO = #{searchRevSeq}
+				</if>
+				
+				<if test="searchStartDt != ''">        
+					AND C.LAST_UPDATE_DATE >= TO_DATE(#{searchStartDt},'YYYY-MM-DD')
+				</if> 
+				<if test = "searchEndDt != ''">        
+					AND C.LAST_UPDATE_DATE &lt; TO_DATE(#{searchEndDt},'YYYY-MM-DD')+1
+				</if>   
+				<if test = "searchFileName != ''">
+					<if test="searchFileNameGb=='M'">
+					AND C.FILE_NAME = #{searchFileName}
+					</if>
+					<if test="searchFileNameGb=='S'">
+					AND C.FILE_NAME LIKE '%'||#{searchFileName}||'%'
+					</if>
+				</if>
+				<if test = "searchAuthor != ''">
+					AND (C.LAST_UPDATED_BY LIKE '%' || #{searchAuthor} || '%' OR C.LAST_UPDATED_BY_V LIKE '%' || #{searchAuthor} || '%')
+				</if>				
+				) T0
+				WHERE RNK = 1 					
+				ORDER BY T0.MASTER_WORKORDER_CONTENTS_ID DESC
+			) T
+		)TT
+	</select>
+	
+	<select id="getSelectAllImageList" parameterType="pMap" resultMap="image-process-map">
+		SELECT TT.* FROM (
+			SELECT T.*, ROWNUM RNUM FROM (
+                 SELECT 
+                     MASTER_W_O_CNTS_IMG_ID
+                     ,FILE_NAME             
+                     ,URL_ADDRESS           
+                     ,MAINT_DOC_MODEL_CODE  
+                     ,W_O_CNTS_DOC_SUBTYP_CD
+                     ,'IMAGE' MASTER_W_O_CNTS_TYP_CD
+                 FROM XXPPL_IMAGE T0
+                 WHERE 1=1
+					<if test="searchMaintDocModelCode != ''">
+					AND T0.MAINT_DOC_MODEL_CODE = #{searchMaintDocModelCode}
+					</if>
+					<if test="searchWOCntsDocSubtypCd != ''">
+					AND T0.W_O_CNTS_DOC_SUBTYP_CD LIKE '%' || #{searchWOCntsDocSubtypCd} || '%'
+					</if>
+					<if test="searchFileName != ''">
+						<if test="searchFileNameGb == 'M'">
+					AND T0.FILE_NAME = #{searchFileName}
+						</if>
+						<if test="searchFileNameGb == 'S'">
+					AND T0.FILE_NAME LIKE '%'||#{searchFileName}||'%'
+						</if>
+					</if>
+				ORDER BY T0.MASTER_W_O_CNTS_IMG_ID DESC
+			) T
+			WHERE ROWNUM &lt;= #{endRow}
+		)TT
+		WHERE TT.RNUM >= #{startRow}
+	</select>
+	
+	<insert id="addFileDownloadList" parameterType="pMap">
+		insert into TB_FILE_DOWNLOAD_LIST
+		(
+			FILE_SEQ,
+			MASTER_WORKORDER_CONTENTS_ID,
+			LAST_UPDATED_BY,
+			LAST_UPDATE_DATE
+		) values (
+			#{fileSeq},
+			#{masterWorkorderContentsId},
+			#{userId},
+			sysdate
+		)
+	</insert>
+	
+	<select id="getReportList" parameterType="pMap" resultMap="process-report-map">
+		SELECT
+			T.MASTER_W_O_CNTS_TSK_ID,
+			T.MAINT_DOC_MODEL_CODE,
+			T.W_O_CNTS_DOC_SUBTYP_CD,
+			T.MASTER_W_O_CNTS_TYP_CD,
+			T.MASTER_W_O_CNTS_TSK_CTN,
+			T.RELEASE_YN,
+			T.RELEASE_DATE,
+			T.CREATED_BY,
+			LPAD(TO_CHAR(NVL (T.CREATED_BY, T.CREATED_BY_V)),7,0) AS CREATED_BY_V,
+			T.CREATION_DATE,
+			T.MASTER_W_O_CNTS_TSK_TYP_CD,
+			T.WORK_START_DATETIME,
+			T.WORK_END_DATETIME,
+			T.MASTER_W_O_CNTS_TSK_STTS_CD,
+			T.USER_ID,
+			T.FILE_NAME,
+			T.URL_ADDRESS,
+			DUM.REPORT_TYPE,
+			C.MASTER_W_O_CNTS_REVZ_NO,
+			NVL(C.MASTER_W_O_CNTS_DOC_REVZ_NO, 1) MASTER_W_O_CNTS_DOC_REVZ_NO
+		FROM XXPPL_TASK T
+            ,(SELECT T.MASTER_W_O_CNTS_TSK_ID
+            		,MAX(TO_NUMBER(C.MASTER_W_O_CNTS_REVZ_NO)) MASTER_W_O_CNTS_REVZ_NO
+                    ,MAX(TO_NUMBER(C.MASTER_W_O_CNTS_DOC_REVZ_NO)) MASTER_W_O_CNTS_DOC_REVZ_NO
+                FROM XXPPL_TASK T
+                     ,XXPPL_TASK_CONTENTS M
+                     ,XXPPL_MASTER_CONTENTS C
+                WHERE T.MASTER_W_O_CNTS_TSK_ID = #{masterWOCntsTskId}
+                    AND T.MASTER_W_O_CNTS_TSK_ID = M.MASTER_W_O_CNTS_TSK_ID
+                    AND M.MASTER_WORKORDER_CONTENTS_ID = C.MASTER_WORKORDER_CONTENTS_ID
+                    AND C.MASTER_W_O_CNTS_STTS_CD != 'D')  C      
+        	,(SELECT 0 ORD, 'AMM' W_O_CNTS_DOC_SUBTYP_CD, 'RT' REPORT_TYPE FROM DUAL
+              UNION ALL
+              SELECT 1, 'AMM', 'OP' FROM DUAL
+              UNION ALL
+              SELECT 2, 'TSM', 'RT' FROM DUAL
+              UNION ALL
+              SELECT 3, 'TSM', 'MR' FROM DUAL
+              UNION ALL
+              SELECT 4, 'FRMFIM', 'RT' FROM DUAL
+              UNION ALL
+              SELECT 5, 'FRMFIM', 'MR' FROM DUAL) DUM
+        WHERE T.MASTER_W_O_CNTS_TSK_ID = #{masterWOCntsTskId}
+        	AND T.W_O_CNTS_DOC_SUBTYP_CD = DUM.W_O_CNTS_DOC_SUBTYP_CD
+      		<if test="reportType != ''">
+			AND DUM.REPORT_TYPE = #{reportType}
+			</if>
+	</select>
+
+	<insert id="addTaskDetail" parameterType="pMap">
+		<selectKey resultType="int" keyProperty="masterWOCntsStskId">
+			select XXPPL_TASK_DETAIL_ID_SEQ.nextval as masterWOCntsStskId from dual
+		</selectKey>
+		INSERT INTO XXPPL_TASK_DETAIL
+			(MASTER_W_O_CNTS_STSK_ID     
+			,MASTER_W_O_CNTS_TSK_ID      
+			,MASTER_W_O_CNTS_STSK_CTN    
+			,WORK_START_DATETIME     
+			,MASTER_W_O_CNTS_STSK_STTS_CD)
+		VALUES (
+		  #{masterWOCntsStskId}        
+		  ,#{masterWOCntsTskId}         
+		  ,#{masterWOCntsStskCtn}       
+		  ,sysdate     
+		  ,#{masterWOCntsStskSttsCd}  
+		)
+	</insert>
+	
+	<insert id="addTaskDetailLog" parameterType="pMap">
+		<selectKey resultType="int" keyProperty="masterWOCntsStskLogId">
+			select XXPPL_SUBTASK_LOG_ID_SEQ.nextval as masterWOCntsStskLogId from dual
+		</selectKey>
+		INSERT INTO XXPPL_SUBTASK_LOG
+			(MASTER_W_O_CNTS_STSK_LOG_ID
+			,ERROR_MESSAGE_CONTENTS     
+			,LOG_RECORD_DATETIME        
+			,MASTER_W_O_CNTS_STSK_ID)
+		VALUES (
+			#{masterWOCntsStskLogId}        
+			,#{errorMessageContents}
+			,sysdate
+			,#{masterWOCntsStskId}
+		)
+	</insert>
+	
+	<update id="updateTaskDetail" parameterType="pMap">
+	UPDATE XXPPL_TASK_DETAIL
+	SET MASTER_W_O_CNTS_STSK_STTS_CD = #{masterWOCntsStskSttsCd}
+	<if test="masterWOCntsTskSttsCd == '7001' or masterWOCntsTskSttsCd == '7003' or masterWOCntsTskSttsCd == '7005' " >
+		,WORK_END_DATETIME = SYSDATE
+	</if>
+	WHERE MASTER_W_O_CNTS_STSK_ID = #{masterWOCntsStskId}
+	</update>
+	
+	<update id="updateTask" parameterType="pMap">
+	UPDATE XXPPL_TASK
+	SET MASTER_W_O_CNTS_TSK_STTS_CD = #{masterWOCntsTskSttsCd}
+	<if test="masterWOCntsTskSttsCd == '7001' or masterWOCntsTskSttsCd == '7003' or masterWOCntsTskSttsCd == '7005' " >
+		,WORK_END_DATETIME = SYSDATE
+	</if>
+	WHERE MASTER_W_O_CNTS_TSK_ID = #{masterWOCntsTskId}
+	</update>
+	
+	<update id="updateTaskCompleteWithFile" parameterType="pMap">
+	UPDATE XXPPL_TASK
+	SET MASTER_W_O_CNTS_TSK_STTS_CD = '7001'
+		,WORK_END_DATETIME = SYSDATE
+		,FILE_NAME = #{zipFileName}
+		,URL_ADDRESS = #{urlAddress}
+	WHERE MASTER_W_O_CNTS_TSK_ID = #{masterWOCntsTskId}
+	</update>
+	
+	<update id="updateTaskFile" parameterType="pMap">
+	UPDATE XXPPL_TASK
+	SET FILE_NAME = #{fileName}
+		,URL_ADDRESS = #{urlAddress}
+	WHERE MASTER_W_O_CNTS_TSK_ID = #{masterWOCntsTskId}
+	</update>	
+
+	
+	<select id="callCheckIn" statementType="CALLABLE" parameterType="pMap">
+		{ call XXPPL_CONTENTS_IF_PKG.MAIN_P (#{v_buff, mode=OUT, jdbcType=VARCHAR}
+										   , #{v_ret, mode=OUT, jdbcType=INTEGER}
+										   , #{contentId, mode=IN, jdbcType=VARCHAR}
+										   , #{taskId, mode=IN, jdbcType=VARCHAR}
+										   , #{userId, mode=IN, jdbcType=VARCHAR}
+										   , #{immediateYn, mode=IN, jdbcType=VARCHAR}) 
+		}
+	</select>
+	
+    <select id="getTaskStatus" parameterType="pMap" resultType="String">
+    SELECT T0.MASTER_W_O_CNTS_TSK_STTS_CD
+	FROM XXPPL_TASK T0
+	WHERE T0.MASTER_W_O_CNTS_TSK_ID = #{masterWOCntsTskId}
+	</select>
+</mapper>

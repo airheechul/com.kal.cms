@@ -30,7 +30,7 @@ $.datepicker.regional['ko'] = {
 									{
 								   		showOn: 'button', 
 							            showAnim: "show",
-										buttonImage: env.contextPath +'/html/images/ko/ico_calendar.gif', 
+										buttonImage: env.contextPath +'/images/ko/ico_calendar.gif', 
 										buttonImageOnly: true,
 								   		buttonText: '등록일',
 								   		maxDate: new Date(),
@@ -81,7 +81,7 @@ $.datepicker.regional['ko'] = {
 										{
 									   		showOn: 'button', 
 								            showAnim: "show",
-											buttonImage: env.contextPath +'/html/images/ko/ico_calendar.gif', 
+											buttonImage: env.contextPath +'/images/ko/ico_calendar.gif', 
 											buttonImageOnly: true,
 									   		buttonText: '등록일',
 									   		maxDate: new Date(),

@@ -18,7 +18,7 @@
 	
 	<!-- Body-title -->
 	<div id="body-title">
-	<h1><img src="/images/blue/tit/title${param.topNum}_${param.leftNum}.gif" alt="h1" /></h1>
+	<h1><img src="${pageContext.request.contextPath}/images/blue/tit/title${param.topNum}_${param.leftNum}.gif" alt="h1" /></h1>
 		<ul id="location">
 			<li class="home"><a href="#" class="dfColor3">Home</a></li>
 		<!--  메뉴관리, 메뉴 권한 관리  메뉴는 사용하지 않으므로 하드코딩.... Start  -->

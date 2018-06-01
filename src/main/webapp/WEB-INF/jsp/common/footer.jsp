@@ -4,7 +4,7 @@
 		<!-- footer start -->
 		<div id="footer">
 			<address>
-			<img src="/images/blue/txt_address.png" alt="2013 &amp;copy; KOREAN AIR. ⓒAll Rights Reserved.">
+			<img src="${pageContext.request.contextPath}/images/blue/txt_address.png" alt="2013 &amp;copy; KOREAN AIR. ⓒAll Rights Reserved.">
 			</address>
 		</div>		
 		<!-- footer end -->

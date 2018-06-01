@@ -1,0 +1,89 @@
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="emp" uri="/mpframe-tags" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.math.BigDecimal"%>
+<%@ page import="com.kal.cms.common.constants.AdminConstants" %>
+<%@ page import="com.kal.cms.common.info.SessionAdminInfo" %>
+<%@ page import="mpframe.core.utils.Util" %>
+<%@ page import="mpframe.core.utils.DateUtils" %>
+<%@ page import="mpframe.core.utils.StringUtils" %>
+<%@ page import="mpframe.mvc.session.SessionHandler" %>
+<%
+SessionAdminInfo sessionAdminInfo = (SessionAdminInfo)SessionHandler.getInstance().getLoginInfo(request);
+%>	
+<script type="text/javascript">
+	$(document).ready(function(){
+		callInterval() ;
+		
+	    $('.btn_popup_close').click(function(e) {
+	    	self.close();
+	    	return false;
+	    });
+	});
+
+    function fncClose() {
+	    self.close();
+	}
+    
+    function callInterval() {
+        window.setInterval("getServerLog()", 10000);
+    }
+    
+    var prevDetailLogId = '${prevDetailLogId}'; //''
+    
+    function getServerLog() {
+    	
+		$.ajax({
+			type: "POST",
+			url: "${pageContext.request.contextPath}/task/taskDetailLogPop.do",
+			cache : false, 
+			data : "detailId=${param.detailId}&prevDetailLogId="+prevDetailLogId,
+			dataType: "json",
+			success : function(data){
+				
+				if(data.taskDetailLog != null && data.taskDetailLog.length > 0) {
+
+					var html = "";
+					for (var i = 0; i <data.taskDetailLog.length ; i++) {
+						var row = data.taskDetailLog[i];
+						html += "["+row.logDateStr+"] : "+row.detailLog +"<br/>";
+						
+						if(i == (data.taskDetailLog.length-1)){
+							prevDetailLogId = row.detailLogId;
+						}
+					}
+
+					$(".logArea").append(html);
+					
+				} else {
+
+				}
+			},
+			error: function(data){
+				alert("에러가 발생하였습니다.");
+			}
+		});
+    }    
+</script>
+
+<!-- Body-content -->
+	<!-- Body-content -->
+	<div id="popup_type_a">
+		<h1>Server Log<button class="btn_popup_close"><img src="${pageContext.request.contextPath}/html/images/${skin}/ico_close.png" alt="close"></button></h1>
+		<div class="logArea" id="dvLogArea">
+		<c:if test="${taskDetailLog != null && fn:length(taskDetailLog) > 0}">  
+			<c:forEach var="logInfo" items="${taskDetailLog}" varStatus="idx">
+			[<emp:date value="${logInfo.logDate}" format="yyyy-MM-dd HH:mm:ss" />] : ${logInfo.detailLog}<br/> 
+			</c:forEach>
+		</c:if>
+		</div>
+	</div>
+	<!-- /Body-content -->
+<!-- /Body-content -->

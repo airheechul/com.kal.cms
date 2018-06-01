@@ -20,7 +20,7 @@
 	<table width="100%" height="100%">
 	<tr>
 		<td align="center" valign="middle" height="100%">
-			<img src="/images/common/contentbox/tit_error.gif" alt="페이지 오류가 발생했습니다. 사용 중 불편을 드려 죄송합니다." />
+			<img src="${pageContext.request.contextPath}/images/common/contentbox/tit_error.gif" alt="페이지 오류가 발생했습니다. 사용 중 불편을 드려 죄송합니다." />
 		</td>
 	</tr>
 	</table>

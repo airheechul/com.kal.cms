@@ -163,7 +163,7 @@ var Common = {
 		$.ajax({
 				type: "GET",
 				cache:false,
-				url: Common.contextPath + "/html/js/" + jsFile,			
+				url: Common.contextPath + "/js/" + jsFile,			
 				async : false,
 				dataType: "script"
 			});

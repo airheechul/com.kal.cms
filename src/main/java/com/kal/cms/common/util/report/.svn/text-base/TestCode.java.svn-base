@@ -1,0 +1,80 @@
+package com.kal.cms.common.util.report;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jdom.Element;
+
+import com.kal.cms.common.util.XMLUtil;
+
+public class TestCode {
+	public static void main(String[] args){
+		try {
+			XMLUtil ss =  new XMLUtil(new File("C:\\TEMP/TEST.xml"));
+			
+			/*
+			System.out.println(" ----- "+ ss.getTitleValue());
+			
+			
+			List<Element> sl = ss.getChilds("TOPIC", ss.getRoot());
+			
+			List<Element> subs = new ArrayList<Element>();
+			
+			for (Element element : sl) {
+				List<Element> s2 = ss.getChilds("SUBTASK", element);
+				
+				for (Element s3 : s2) {
+					subs.add(s3);
+				}
+			}
+			
+			for (Element element : subs) {
+				Element ele = ss.getFirstMatchElement("PARA", element); 
+				
+				System.out.println(" === " +ele.getValue());
+			}
+			*/
+			
+			List<String> ddd =  getPARA(ss);
+			
+			for (String mm : ddd){
+				System.out.println("XXX:"+mm);
+			}
+		} catch (Exception e) {
+			
+		}
+		
+		
+
+	}
+	
+	private static  List<String> getPARA(XMLUtil ss){
+		List<String> PARAList = new ArrayList<String>(); 
+
+		List<Element> topics = ss.getChilds("TOPIC", ss.getRoot());
+		
+		List<Element> subs = new ArrayList<Element>();
+		
+		for (Element element : topics) {
+			List<Element> sublist = ss.getChilds("SUBTASK", element);
+			
+			for (Element subEle : sublist) {
+				subs.add(subEle);
+			}
+		}
+		
+		for (Element element : subs) {
+			Element ele = ss.getFirstMatchElement("L1ITEM", element);
+			List<Element> s2 = ss.getChilds("PARA", ele);
+			
+			String result = "";
+			for (Element s3 : s2) {
+				result += s3.getValue();
+			}
+			PARAList.add(result);
+		}
+		
+		return PARAList;
+	}
+}
